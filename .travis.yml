@@ -1,0 +1,12 @@
+language: python
+python:
+  - "3.4"
+install:
+  - pip install -r requirements.txt
+  - cd ..
+  - django-admin.py startproject --template=./edge --extension=py,md,html,env yesjob
+  - cd yesjob/src
+  - cp yesjob/settings/local.sample.env yesjob/settings/local.env
+  - python manage.py migrate
+script:
+  - python manage.py test profiles
