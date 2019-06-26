@@ -1,0 +1,18 @@
+{% extends 'base.html'%}
+
+
+
+{% block container %}
+    <h3 class="text-center">Вакансия</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create Vacancy</button>
+    </form>
+{% endblock %}
+
+
+
+{% block navbar %}
+
+{% endblock navbar %}
