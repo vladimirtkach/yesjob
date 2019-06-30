@@ -19,3 +19,5 @@ class CreateVacancy(TemplateView):
             return HttpResponseRedirect('/')
         return render(request, self.template_name, context={'form': form})
 
+
+
