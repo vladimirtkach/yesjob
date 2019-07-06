@@ -27,13 +27,14 @@ class Vacancy(models.Model):
 
 
 class Employer(models.Model):
+    objects = models.Manager()
+    #vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
     company_name = models.CharField(max_length=50, blank=True)
     country = models.CharField(max_length=50, blank=True)
     office_address = models.CharField(max_length=50, blank=True)
     site = models.CharField(max_length=50, blank=True)
     contact_list = models.CharField(max_length=50, blank=True)
     employer_type = models.CharField(max_length=50, blank=True)
-    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.company_name

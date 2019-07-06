@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <h1 style="margin-top: 5%;">Список Работодателей</h1>
+    <form action="" method="get">
+        {% csrf_token %}
+        {% for employer in employers_lst %}
+            <p>
+                <a href="{% url 'employer_detail_url' %}">{{ employer.company_name }}</a>
+                {{ employer.country }}
+                {{ employer.employer_type }}
+                {{ employer.country }}
+            </p>
+        {% endfor %}
+    </form>
+{% endblock container %}
