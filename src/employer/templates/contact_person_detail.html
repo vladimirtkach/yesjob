@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <h1 style="margin-top: 5%;">{{ ContactPerson.name }}</h1>
+    <form action="" method="get">
+        {% csrf_token %}
+
+        {{ contact_person.name }}
+        {{ contact_person.phone }}
+        {{ contact_person.email }}
+        {{ contact_person.role }}
+        {{ contact_person.employer }}
+        {{ contact_person.languages }}
+    </form>
+{% endblock container %}

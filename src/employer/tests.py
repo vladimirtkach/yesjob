@@ -16,8 +16,8 @@ class EmployerTestCase(TestCase):
                                 vacancy=create_vacancy)
 
     def test_employer(self):
-        otus = Employer.objects.get(company_name='otus', vacancy='sdev')
-        uber = Employer.objects.get(company_name='uber', vacancy='sdev')
+        otus = Employer.objects.get(,,
+        uber = Employer.objects.get(,,
         self.assertEqual(otus.country, "UK")
         self.assertEqual(uber.country, "USA")
         self.assertEqual(otus.vacancy, "sdev")

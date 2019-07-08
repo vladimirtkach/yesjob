@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <h1 style="margin-top: 5%;">Список языков контактного лица</h1>
+        {% for contact_language in contact_languages %}
+            <p>
+                <a href="{% url 'contact_languages_detail_url' slug=contact_language.slug %}">{{ contact_language.language }}</a>
+                {{ contact_languages.language }}
+            </p>
+        {% endfor %}
+{% endblock container %}
