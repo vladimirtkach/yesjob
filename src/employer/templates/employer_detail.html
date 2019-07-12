@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 
 {% block container %}
-    <h1 style="margin-top: 5%;">{{ Employer.company_name }}</h1>
-    <form action="" method="get">
-        {% csrf_token %}
+    <h1>{{ Employer.name }}</h1>
+<p>
+
         {{ employer.country }}
-        {{ employer.office_address }}
         {{ employer.site }}
-        {{ employer.contact_list }}
-        {{ employer.employer_type }}
-    </form>
+
+</p>
+
+
 {% endblock container %}

@@ -46,8 +46,12 @@
             {% block navbar-brand %}
               <img src="{% static 'site/img/logo.png' %}" alt="logo">
               {% include "_brandname.html" %}
+            
             {% endblock %}
           </a>
+          <a href="{% url 'vacancy_url' %}">Create Vacancy</a>
+          <a href="{% url 'create_employer_url' %}">Create Employer</a>
+          <a href="{% url 'create_contact_person_url' %}">Create Contact Person</a>
         </div>
         {% block navbar-menu %}
         <div class="collapse navbar-collapse">

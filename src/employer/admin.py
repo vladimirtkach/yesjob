@@ -1,3 +1,16 @@
 from django.contrib import admin
+from .models import Employer, ContactPerson, Language
 
-# Register your models here.
+
+@admin.register(Employer)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(ContactPerson)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Language)
+class AuthorAdmin(admin.ModelAdmin):
+    pass

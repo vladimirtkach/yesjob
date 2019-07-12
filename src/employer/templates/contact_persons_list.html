@@ -4,7 +4,7 @@
     <h1 style="margin-top: 5%;">Список Контактных Лиц</h1>
         {% for contact_person in contact_persons %}
             <p>
-                <a href="{% url 'contact_person_detail_url' slug=contact_person.slug %}">{{ contact_person.name }}</a>
+                <a href="{% url 'contact_person_detail_url' id=contact_person.pk %}">{{ contact_person.name }}</a>
                 {{ contact_person.email }}
                 {{ contact_person.language }}
             </p>
