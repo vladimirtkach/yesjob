@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <h1 style="margin-top: 5%;">Список Работодателей</h1>
+        {% for employer in employers_lst %}
+            <p>
+                <a href="{% url 'employer_detail_url' slug=employer.slug %}">{{ employer.company_name }}</a>
+                {{ employer.country }}
+                {{ employer.employer_type }}
+            </p>
+        {% endfor %}
+{% endblock container %}
