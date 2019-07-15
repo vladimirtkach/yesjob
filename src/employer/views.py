@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin, PermissionRequiredMixin
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import *
 from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
@@ -35,16 +36,36 @@ class CreateEmployer(TemplateView):
             return HttpResponseRedirect('/')
         return render(request, self.template_name, context={'form': form})
 
+class AdminRequiredMixin(AccessMixin):
+    """Verify that the current user is authenticated."""
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            request.user.groups.get(name='vacancy')
+            return super().dispatch(request, *args, **kwargs)
+        except:
+            return self.handle_no_permission()
 
-class EmployerDetail(TemplateView):
+
+def perm(permission=''):
+    class PermissionMixin(PermissionRequiredMixin):
+        permission_required = permission
+
+        def handle_no_permission(self):
+            return redirect('/')
+
+    return PermissionMixin
+
+
+class EmployerDetail(perm('employer.add_vacancy'), TemplateView):
     template_name = 'employer_detail.html'
+
 
     def get(self, request, id):
         employer = get_object_or_404(Employer, pk=id)
         return render(request, self.template_name, context={'employer': employer})
 
 
-class EmployerList(TemplateView):
+class EmployerList(LoginRequiredMixin, TemplateView):
     template_name = 'employers_list.html'
 
     def get(self, request):
@@ -58,11 +79,11 @@ class CreateContactPerson(TemplateView):
     form = CreateContactPersonForm
     template_name = 'create_contact_person_form.html'
 
-    def get(self, request):
+    def get(self, request, id):
         form = self.form()
         return render(request, self.template_name, context={'form': form})
 
-    def post(self, request):
+    def post(self, request, id):
         form = self.form(request.POST)
         if form.is_valid():
             form.save()
@@ -83,15 +104,6 @@ class ContactPersonDetail(TemplateView):
         return render(request, self.template_name, context={'contact_person': contact_person})
 
 
-
-
-
-class ContactLanguagesDetail(TemplateView):
-    template_name = 'contact_languages_detail.html'
-
-    def get(self, request, slug):
-        contact_languages = get_object_or_404(ContactLanguages, slug__iexact=slug)
-        return render(request, self.template_name, context={'contact_languages': contact_languages})
 
 
 
