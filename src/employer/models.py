@@ -46,9 +46,9 @@ class ContactPerson(models.Model):
     employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
     languages = models.ManyToManyField('Language')
 
-
     def __str__(self):
         return self.name
+
 
 class Language(models.Model):
     language = models.CharField(max_length=50, blank=True)
@@ -57,3 +57,15 @@ class Language(models.Model):
         return self.language
 
 
+class Expenses(models.Model):
+    type_of_expense = models.CharField(max_length=100, blank=True)
+    type_of_type_of_expense = models.CharField(max_length=100, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class HistoryExpense(models.Model):
+    date_of_expense = models.DateField(max_length=30, blank=True)
+    sum_of_expense = models.IntegerField(blank=True)
+    expense = models.ForeignKey(Expenses, on_delete=models.CASCADE)

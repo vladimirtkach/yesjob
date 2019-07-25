@@ -16,8 +16,14 @@ class CreateEmployerForm(forms.ModelForm):
 
 class CreateContactPersonForm(forms.ModelForm):
     languages = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(),
-                                          queryset=Language.objects.all())
+                                               queryset=Language.objects.all())
 
     class Meta:
         model = ContactPerson
+        fields = '__all__'
+
+
+class CreateExpenseForm(forms.ModelForm):
+    class Meta:
+        model = Expenses
         fields = '__all__'
