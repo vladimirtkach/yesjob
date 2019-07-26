@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employer, ContactPerson, Language
+from .models import Employer, ContactPerson, Language, Expenses
 
 
 @admin.register(Employer)
@@ -12,5 +12,9 @@ class AuthorAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Language)
+class AuthorAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Expenses)
 class AuthorAdmin(admin.ModelAdmin):
     pass
