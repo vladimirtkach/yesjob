@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <h1 style="margin-top: 5%;">Список Расходов</h1>
+        {% for expense in expenses %}
+            <p>
+                <a href="{% url 'expenses_list' %}">{{ expense }}</a>
+                {{ expenses.type_of_expense }}
+                {{ expenses.type_of_type_of_expense }}
+            </p>
+        {% endfor %}
+{% endblock container %}

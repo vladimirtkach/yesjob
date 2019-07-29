@@ -27,42 +27,44 @@ class Vacancy(models.Model):
 
 
 class Employer(models.Model):
-    objects = models.Manager()
-    #vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
-    slug = models.SlugField(max_length=150, unique=True, default=True)
+    employer_id = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=50, blank=True)
     country = models.CharField(max_length=50, blank=True)
     office_address = models.CharField(max_length=50, blank=True)
     site = models.CharField(max_length=50, blank=True)
-    contact_list = models.CharField(max_length=50, blank=True)
-    employer_type = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.company_name
 
 
 class ContactPerson(models.Model):
-    objects = models.Manager()
-    slug = models.SlugField(max_length=150, unique=True, default=True)
+    contact_person_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
     phone = models.CharField(max_length=50, blank=True)
     email = models.EmailField(max_length=50, blank=True)
     role = models.CharField(max_length=50, blank=True)
-    employer = models.CharField(max_length=50, blank=True)
-    languages = models.CharField(max_length=50, blank=True)
-    #employer_model = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    languages = models.ManyToManyField('Language')
 
     def __str__(self):
         return self.name
 
 
-class ContactLanguages(models.Model):
-    objects = models.Manager()
-    slug = models.SlugField(max_length=150, unique=True, default=True)
-    contact_person = models.CharField(max_length=50, blank=True)
+class Language(models.Model):
     language = models.CharField(max_length=50, blank=True)
-    language_skill = models.CharField(max_length=50, blank=True)
-    #contact_person_model = models.ForeignKey(ContactPerson, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.contact_person
+        return self.language
+
+
+class Expenses(models.Model):
+    type_of_expense = models.CharField(max_length=50, blank=True)
+
+    def __str__(self):
+        return self.type_of_expense
+
+
+class HistoryExpense(models.Model):
+    date_of_expense = models.DateField(max_length=30, blank=True)
+    sum_of_expense = models.IntegerField(blank=True)
+    expense = models.ForeignKey(Expenses, on_delete=models.CASCADE)
