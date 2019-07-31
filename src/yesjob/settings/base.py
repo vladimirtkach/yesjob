@@ -77,6 +77,8 @@ INSTALLED_APPS = (
     "profiles",
     "accounts",
     "employer",
+    "sales",
+    "strategy",
 )
 
 MIDDLEWARE = [

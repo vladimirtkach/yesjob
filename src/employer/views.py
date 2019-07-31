@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, AccessMixin, PermissionRequiredMixin
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+
 from .forms import *
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from django.http import HttpResponseRedirect
 
 
@@ -9,32 +11,23 @@ class CreateVacancy(LoginRequiredMixin, TemplateView):
     form = VacancyForm
     template_name = 'create_vacancy_form.html'
 
-    def get(self, request):
+    def get(self, request, id):
         form = self.form()
+        form.fields["employer"].initial = id
         return render(request, self.template_name, context={'form': form})
 
-    def post(self, request):
+    def post(self, request, id):
         form = self.form(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/employer/')
         return render(request, self.template_name, context={'form': form})
 
 
-class CreateEmployer(LoginRequiredMixin, TemplateView):
-    form = CreateEmployerForm
+class CreateEmployer(LoginRequiredMixin, CreateView):
     template_name = 'create_employer_form.html'
-
-    def get(self, request):
-        form = self.form()
-        return render(request, self.template_name, context={'form': form})
-
-    def post(self, request):
-        form = self.form(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/')
-        return render(request, self.template_name, context={'form': form})
+    form_class = CreateEmployerForm
+    success_url = "/"
 
 class AdminRequiredMixin(AccessMixin):
     """Verify that the current user is authenticated."""
@@ -56,21 +49,17 @@ def perm(permission=''):
     return PermissionMixin
 
 
-class EmployerDetail(perm('employer.add_vacancy'), TemplateView):
-    template_name = 'employer_detail.html'
-
-    def get(self, request, id):
-        employer = get_object_or_404(Employer, pk=id)
-        return render(request, self.template_name, context={'employer': employer})
+class EmployerDetail(perm('employer.add_vacancy'), DetailView):
+    model = Employer
+    slug_field = 'id'
 
 
-class EmployerList(LoginRequiredMixin, TemplateView):
-    template_name = 'employers_list.html'
+class EmployerList(LoginRequiredMixin, ListView):
+    model = Employer
 
-    def get(self, request):
-        employers_lst = Employer.objects.all()
-        return render(request, 'employers_list.html', context={'employers_lst': employers_lst})
 
+class VacancyList(ListView):
+    model = Vacancy
 
 
 class CreateContactPerson(LoginRequiredMixin, TemplateView):
