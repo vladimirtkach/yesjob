@@ -21,7 +21,7 @@ class Vacancy(models.Model):
     overtime_hours = models.CharField(max_length=20, blank=True)
     duration_of_trial_period = models.CharField(max_length=20, blank=True)
     general_qualification_requirements = models.CharField(max_length=20, blank=True)
-
+    employer = models.ForeignKey("Employer", on_delete=models.CASCADE)
     def __str__(self):
         return self.position
 
