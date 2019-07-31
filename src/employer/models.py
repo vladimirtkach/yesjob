@@ -68,3 +68,23 @@ class HistoryExpense(models.Model):
     date_of_expense = models.DateField(max_length=30, blank=True)
     sum_of_expense = models.IntegerField(blank=True)
     expense = models.ForeignKey(Expenses, on_delete=models.CASCADE)
+
+
+class Note(models.Model):
+    text = models.CharField(max_length=200, blank=True)
+    text2 = models.CharField(max_length=200, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class VacancyNote(Note):
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
+
+
+class EmployerNote(Note):
+    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+
+
+class AgentNote(Note):
+    agent = models.ForeignKey(ContactPerson, on_delete=models.CASCADE)

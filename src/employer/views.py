@@ -72,7 +72,6 @@ class EmployerList(LoginRequiredMixin, TemplateView):
         return render(request, 'employers_list.html', context={'employers_lst': employers_lst})
 
 
-
 class CreateContactPerson(LoginRequiredMixin, TemplateView):
     form = CreateContactPersonForm
     template_name = 'create_contact_person_form.html'
@@ -122,5 +121,25 @@ def expenses_list(request):
     expenses = Expenses.objects.all()
     return render(request, 'expenses_list.html', context={'expenses': expenses})
 
+
+class CreateNote(TemplateView):
+    form = CreateNoteForm
+    template_name = 'employer_detail.html'
+
+    def get(self, request):
+        form = self.form()
+        return render(request, self.template_name, context={'form': form})
+
+    def post(self, request):
+        form = self.form(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
+        return render(request, self.template_name, context={'form': form})
+
+
+def notes_list(request):
+    notes = Note.objects.all()
+    return render(request, 'employer_detail.html', context={'notes': notes})
 
 

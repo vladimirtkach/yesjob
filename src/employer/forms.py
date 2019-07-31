@@ -27,3 +27,9 @@ class CreateExpenseForm(forms.ModelForm):
     class Meta:
         model = Expenses
         fields = '__all__'
+
+
+class CreateNoteForm(forms.ModelForm):
+    class Meta:
+        model = EmployerNote
+        fields = '__all__'

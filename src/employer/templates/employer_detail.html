@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
 
 {% block container %}
-              <h1 class="h3 mb-2 text-gray-800"> Работодатель {{ employer.company_name }}</h1>
-          <p class="mb-4">Example description</p>
-<p>
-
+    <h1 class="h3 mb-2 text-gray-800"> Работодатель {{ employer.company_name }}</h1>
+    <p class="mb-4">Example description</p>
+    <p>
         {{ employer.country }}
         {{ employer.site }}
+    </p>
 
-</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Создать</button>
+    </form>
+
+    <h2 style="margin-top: 5%;">Заметки</h2>
+    {% for note in notes %}
+        {{ note }}
+    {% endfor %}
+
 
 
 {% endblock container %}
