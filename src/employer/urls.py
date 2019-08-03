@@ -13,6 +13,9 @@ urlpatterns = [
     path("employer/<id>/contacts/", contact_persons_list, name="employer_contacts"),
     path("employer/create_expense/", CreateExpense.as_view(), name="create_expense"),
     path("employer/expenses_list/", expenses_list, name="expenses_list"),
+    path("employer/create_note/employer/", employer_create_note, name='employer_create_note'),
+    path("employer/create_note/vacancy/", employer_create_note, name='vacancy_create_note'),
+    path("employer/create_note/agent/", employer_create_note, name='agent_create_note'),
 
     path("employer/<id>/", EmployerDetail.as_view(), name="employer_detail"),
 ]

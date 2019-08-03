@@ -122,20 +122,31 @@ def expenses_list(request):
     return render(request, 'expenses_list.html', context={'expenses': expenses})
 
 
-class CreateNote(TemplateView):
-    form = CreateNoteForm
-    template_name = 'employer_detail.html'
+def vacancy_create_note(request):
+    if request.method == 'POST':
+        note_form = CreateNoteForm(request.POST)
+        if note_form.is_valid():
+            note = note_form.save()
+            note.save()
+        return redirect(request, 'vacancy_note.html', pk=note.pk)
 
-    def get(self, request):
-        form = self.form()
-        return render(request, self.template_name, context={'form': form})
 
-    def post(self, request):
-        form = self.form(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/')
-        return render(request, self.template_name, context={'form': form})
+def employer_create_note(request):
+    if request.method == 'POST':
+        note_form = CreateNoteForm(request.POST)
+        if note_form.is_valid():
+            note = note_form.save()
+            note.save()
+        return redirect(request, 'employer_note.html', pk=note.pk)
+
+
+def agent_create_note(request):
+    if request.method == 'POST':
+        note_form = CreateNoteForm(request.POST)
+        if note_form.is_valid():
+            note = note_form.save()
+            note.save()
+        return redirect(request, 'agent_note.html', pk=note.pk)
 
 
 def notes_list(request):

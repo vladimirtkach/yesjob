@@ -7,18 +7,4 @@
         {{ employer.country }}
         {{ employer.site }}
     </p>
-
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Создать</button>
-    </form>
-
-    <h2 style="margin-top: 5%;">Заметки</h2>
-    {% for note in notes %}
-        {{ note }}
-    {% endfor %}
-
-
-
 {% endblock container %}

@@ -71,8 +71,8 @@ class HistoryExpense(models.Model):
 
 
 class Note(models.Model):
+    headline = models.CharField(max_length=200, blank=True)
     text = models.CharField(max_length=200, blank=True)
-    text2 = models.CharField(max_length=200, blank=True)
 
     class Meta:
         abstract = True
@@ -83,7 +83,7 @@ class VacancyNote(Note):
 
 
 class EmployerNote(Note):
-    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
+    employer_id = models.AutoField(primary_key=True)
 
 
 class AgentNote(Note):
