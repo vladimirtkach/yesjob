@@ -54,7 +54,7 @@ class EmployerDetail(perm('employer.add_vacancy'), DetailView):
     slug_field = 'id'
 
 
-class EmployerList(LoginRequiredMixin, ListView):
+class EmployerList(perm('employer.add_vacancy'), ListView):
     model = Employer
 
 

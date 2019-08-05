@@ -8,5 +8,6 @@ from . import views
 app_name = "sales"
 urlpatterns = [
     path("contact_list", contact_list, name="contact_list"),
+    path("delegate_list", delegate_list, name="delegate_list"),
     path("create_contact", create_contact, name="create_contact"),
 ]
