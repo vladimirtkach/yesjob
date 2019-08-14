@@ -1,14 +1,10 @@
 {% extends 'base.html' %}
 
 {% block container %}
-              <h1 class="h3 mb-2 text-gray-800"> Работодатель {{ employer.company_name }}</h1>
-          <p class="mb-4">Example description</p>
-<p>
-
+    <h1 class="h3 mb-2 text-gray-800"> Работодатель {{ employer.company_name }}</h1>
+    <p class="mb-4">Example description</p>
+    <p>
         {{ employer.country }}
         {{ employer.site }}
-
-</p>
-
-
+    </p>
 {% endblock container %}
