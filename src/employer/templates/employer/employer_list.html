@@ -2,9 +2,9 @@
 
 {% block container %}
     <h1 style="margin-top: 5%;">Список Работодателей</h1>
-        {% for employer in employers_lst %}
+        {% for employer in employer_list %}
             <p>
-                <a href="{% url 'employer_detail' id=employer.employer_id  %}">{{ employer.company_name }}</a>
+                <a href="{% url 'employer:employer_detail' pk=employer.id  %}">{{ employer.company_name }}</a>
                 {{ employer.country }}
             </p>
         {% endfor %}

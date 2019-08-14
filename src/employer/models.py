@@ -21,13 +21,12 @@ class Vacancy(models.Model):
     overtime_hours = models.CharField(max_length=20, blank=True)
     duration_of_trial_period = models.CharField(max_length=20, blank=True)
     general_qualification_requirements = models.CharField(max_length=20, blank=True)
-
+    employer = models.ForeignKey("Employer", on_delete=models.CASCADE)
     def __str__(self):
         return self.position
 
 
 class Employer(models.Model):
-    employer_id = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=50, blank=True)
     country = models.CharField(max_length=50, blank=True)
     office_address = models.CharField(max_length=50, blank=True)
@@ -38,7 +37,6 @@ class Employer(models.Model):
 
 
 class ContactPerson(models.Model):
-    contact_person_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True)
     phone = models.CharField(max_length=50, blank=True)
     email = models.EmailField(max_length=50, blank=True)
@@ -83,7 +81,7 @@ class VacancyNote(Note):
 
 
 class EmployerNote(Note):
-    employer_id = models.AutoField(primary_key=True)
+    employer = models.ForeignKey(Employer, on_delete=models.CASCADE)
 
 
 class AgentNote(Note):

@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+
+<button type="button" class="btn btn-outline-primary"><a href="{% url 'sales:create_contact' %}"> Добавить контакт </a></button>
+
+{% if contact_list.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if contact_list.has_previous %}
+
+    <li class="page-item"><a class="page-link" href="?page={{ contact_list.previous_page_number }}">Пред.</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">Пред.</a></li>
+    {% endif %}
+  {% for i in contact_list.paginator.page_range %}
+      {% if contact_list.number == i %}
+     <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+     {% if contact_list.has_next %}
+      <li class="page-item"><a class="page-link"  href="?page={{ contact_list.next_page_number }}">След.</a></li>
+    {% else %}
+
+    <li class="page-item disabled"><a class="page-link" href="#">След.</a></li>
+    {% endif %}
+
+       </ul>
+</nav>
+{% endif %}
+
+<form action="" method="post" id="delegate">
+    {% csrf_token %}
+    <input type="hidden" name="cids" id="cids">
+    <input type="submit"  value="Изменить агента" >
+    {{agent_form}}
+
+</form>
+
+    <script>
+            var csrf_token = "";
+        $("form#delegate").on("submit",function(){
+            var x = $("table input[type=checkbox]");
+            var data = data = $.map(x,function(el) { if (el.checked==true)  { return el.id; }});
+            $("#cids").val(data.join(","));
+            return true;
+        });
+        $("#num").change(function(){
+             var item = $(this);
+             window.location.href = window.location.href.replace(/(num=)[^\&]+/, '$1' + item.val());
+        });
+    </script>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Имя</th>
+      <th scope="col">Возраст</th>
+      <th scope="col">Пол</th>
+      <th scope="col">Профиль</th>
+      <th scope="col">Агент</th>
+      <th scope="col">Выбрать</th>
+    </tr>
+  </thead>
+  <tbody>
+
+{% for c in contact_list%}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{ c.first_name}}  {{ c.last_name }}</td>
+      <td>{{ c.age }}</td>
+      <td>{{ c.sex }}</td>
+      <td>{{ c.profiles }}</td>
+      <td>{{ c.agent.user.name }}</td>
+      <td><input type="checkbox" id="{{ c.pk }}"></td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+{% endblock %}
