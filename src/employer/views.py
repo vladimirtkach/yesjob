@@ -61,7 +61,6 @@ class EmployerList(perm('employer.add_vacancy'), ListView):
 class VacancyList(ListView):
     model = Vacancy
 
-
 class CreateContactPerson(LoginRequiredMixin, TemplateView):
     form = CreateContactPersonForm
     template_name = 'create_contact_person_form.html'
@@ -111,5 +110,36 @@ def expenses_list(request):
     expenses = Expenses.objects.all()
     return render(request, 'expenses_list.html', context={'expenses': expenses})
 
+
+def vacancy_create_note(request):
+    if request.method == 'POST':
+        note_form = CreateNoteForm(request.POST)
+        if note_form.is_valid():
+            note = note_form.save()
+            note.save()
+        return redirect(request, 'vacancy_note.html', pk=note.pk)
+
+
+def employer_create_note(request):
+    if request.method == 'POST':
+        note_form = CreateNoteForm(request.POST)
+        if note_form.is_valid():
+            note = note_form.save()
+            note.save()
+        return redirect(request, 'employer_note.html', pk=note.pk)
+
+
+def agent_create_note(request):
+    if request.method == 'POST':
+        note_form = CreateNoteForm(request.POST)
+        if note_form.is_valid():
+            note = note_form.save()
+            note.save()
+        return redirect(request, 'agent_note.html', pk=note.pk)
+
+
+def notes_list(request):
+    notes = Note.objects.all()
+    return render(request, 'employer_detail.html', context={'notes': notes})
 
 
