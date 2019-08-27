@@ -1,29 +1,32 @@
 from django.db import models
 
-
 class Vacancy(models.Model):
-    position = models.CharField(max_length=20)
-    employers_name = models.CharField(max_length=20, blank=True)
-    count_workers = models.CharField(max_length=20, blank=True)
-    workplace = models.CharField(max_length=20, blank=True)
-    employee_start_date = models.CharField(max_length=20, blank=True)
-    working_days = models.CharField(max_length=20, blank=True)
-    work_schedule = models.CharField(max_length=20, blank=True)
-    job_description = models.CharField(max_length=20, blank=True)
-    type_of_residence = models.CharField(max_length=20, blank=True)
-    type_of_residence_common = models.CharField(max_length=20, blank=True)
-    salary_total = models.CharField(max_length=20, blank=True)
-    average_salary_after_trial_period = models.CharField(max_length=20, blank=True)
-    average_salary_for_year = models.CharField(max_length=20, blank=True)
-    recruiting_contribution = models.CharField(max_length=20, blank=True)
-    rewards = models.CharField(max_length=20, blank=True)
-    career_opportunities = models.CharField(max_length=20, blank=True)
-    overtime_hours = models.CharField(max_length=20, blank=True)
-    duration_of_trial_period = models.CharField(max_length=20, blank=True)
-    general_qualification_requirements = models.CharField(max_length=20, blank=True)
-    employer = models.ForeignKey("Employer", on_delete=models.CASCADE)
+    employer = models.ForeignKey("Employer", on_delete=models.CASCADE, verbose_name="Провайдер")
+    position_title = models.CharField(max_length=20, verbose_name="Название вакансии")
+    employer_name = models.CharField(max_length=20, blank=True, verbose_name="Название работодателя")
+    job_description = models.CharField(max_length=20, blank=True, verbose_name="Описание работы")
+    requirements = models.CharField(max_length=20, blank=True, verbose_name="Требования к работнику")
+    employee_count = models.CharField(max_length=20, blank=True, verbose_name="Необходимое количество работников")
+    city = models.CharField(max_length=20, blank=True, verbose_name="Город работы")
+    start_date = models.DateField(max_length=20, blank=True, verbose_name="Дата старта")
+    working_days = models.CharField(max_length=20, blank=True, verbose_name="Дни работы")
+    work_schedule = models.CharField(max_length=20, blank=True, verbose_name="График работы")
+    living_price = models.CharField(max_length=20, blank=True, verbose_name="Стоимость проживания")
+    living_conditions = models.CharField(max_length=20, blank=True, verbose_name="Условия проживания")
+    trial_duration = models.CharField(max_length=20, blank=True, verbose_name="Длительность испытательного срока")
+    trial_salary = models.CharField(max_length=20, blank=True, verbose_name="Зарплата во время испытательного срока")
+    salary = models.CharField(max_length=20, blank=True, verbose_name="Зарплата после испытательного срока")
+    salary_after_year = models.CharField(max_length=20, blank=True, verbose_name="Зарплата через год")
+    overtime_hours = models.CharField(max_length=20, blank=True, verbose_name="Максимальное количество рабочих часов")
+    entering_bonus = models.CharField(max_length=20, blank=True, verbose_name="Бонус при выходе на работу")
+    year_bonus = models.CharField(max_length=20, blank=True, verbose_name="Годовой бонус")
+    career_opportunities = models.CharField(max_length=20, blank=True, verbose_name="Возможности карьерного роста")
+    status = models.CharField(max_length=20, blank=True, choices=(("active","Активная"),("hold","Приостановленная"),("archive","Архивная")))
+    documents = models.CharField(max_length=20, blank=True, choices=(("visa","Виза"),("ecard","Карта"),("visa_card","Виза+Карта")))
+    # profiles = models.ManyToManyField(m.SkillProfile, default=None)
+    price = models.IntegerField(blank=True, verbose_name="Стоимость вакансии")
     def __str__(self):
-        return self.position
+        return self.position_title
 
 
 class Employer(models.Model):
@@ -31,7 +34,6 @@ class Employer(models.Model):
     country = models.CharField(max_length=50, blank=True)
     office_address = models.CharField(max_length=50, blank=True)
     site = models.CharField(max_length=50, blank=True)
-
     def __str__(self):
         return self.company_name
 

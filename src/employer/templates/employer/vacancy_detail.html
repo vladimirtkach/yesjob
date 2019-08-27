@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block container %}
+    <h1 class="h3 mb-2 text-gray-800"> Вакансия {{ v.position_title }} </h1>
+    
+    <div class="row">
+        <div class="col-md-10">
+            <table class="table table-striped">
+  <thead>
+    <tr>
+<th  style="width: 20%" >Название</th>
+      <th   style="width: 80%">Описание</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td >Провайдер</td><td>{{v.provider}}</td>
+    </tr>
+    <tr>
+      <td>Статус</td><td>{{v.status}}</td>
+    </tr>
+    <tr>
+      <td>Цена</td><td>{{v.price}}</td>
+    </tr>
+       <tr>
+      <td>Документы</td><td>{{v.documents}}</td>
+    </tr>
+    <tr>
+      <td>Работодатель</td><td>{{v.employer_name}}</td>
+    </tr>
+    <tr>
+        <td>Дата старта</td> <td>{{v.start_date}}</td>
+    </tr>
+
+    <tr>
+        <td>Город</td> <td>{{v.city}}</td>
+    </tr>
+    <tr>
+  <td>Количество работников</td> <td>{{v.employee_count}}</td>
+  </tr>
+  <tr>
+        <td>Зарплата</td> <td>{{v.salary}}</td>
+    </tr>
+  <tr>
+        <td>Зарплата во время испытательного срока</td> <td>{{v.salary_after_trial}}</td>
+    </tr>
+  <tr>
+        <td>Длительность испытательного срока</td> <td>{{v.trial_duration}}</td>
+    </tr>
+  <tr>
+        <td>Зарплата через год</td> <td>{{v.salary_after_year}}</td>
+    </tr>
+    <tr>
+        <td>Бонус при выходе на работу</td> <td>{{v.entering_bonus}}</td>
+    </tr>
+    <tr>
+        <td>Годовой бонус</td> <td>{{v.year_bonus}}</td>
+    </tr>
+    <tr>
+        <td>Возможности карьерного роста</td> <td>{{v.career_opportunities}}</td>
+    </tr>
+  <tr>
+        <td>Дни работы</td> <td>{{v.working_days}}</td>
+    </tr>
+  <tr>
+        <td>График работы</td> <td>{{v.work_schedule}}</td>
+    </tr>
+  <tr>
+        <td>Стоимость проживания</td> <td>{{v.living_price}}</td>
+    </tr>  
+    <tr>
+        <td>Описание работы</td> <td>{{v.job_description}}</td>
+    </tr>
+  </table>
+
+        </div>
+    </div>
+
+
+{% endblock container %}

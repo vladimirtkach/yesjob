@@ -2,10 +2,65 @@
 
 {% block container %}
     <h1 style="margin-top: 5%;">Список Вакансий</h1>
-{% for vacancy in vacancy_list%}
 
-    {{vacancy}}
+{% if vacancy_list.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if vacancy_list.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ vacancy_list.previous_page_number }}">Пред.</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">Пред.</a></li>
+    {% endif %}
+  {% for i in vacancy_list.paginator.page_range %}
+      {% if vacancy_list.number == i %}
+     <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+     {% if vacancy_list.has_next %}
+      <li class="page-item"><a class="page-link"  href="?page={{ vacancy_list.next_page_number }}">Cлед.</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">Cлед.</a></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+
+    <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Название</th>
+      <th scope="col">Провайдер</th>
+      <th scope="col">Работодатель</th>
+      <th scope="col">Старт работы</th>
+      <th scope="col">Количество работников</th>
+      <th scope="col">Тип документов</th>
+      <th scope="col">Зарплата</th>
+      <th scope="col">Цена</th>
+    </tr>
+  </thead>
+  <tbody>
+
+{% for v in vacancy_list%}
+
+<tr>
+      <th scope="row">{{v.id}}</th>
+      <td><a href="{% url 'employer:vacancy_detail' v.id %}">{{ v.position_title }}</a> </td>
+      <td>{{ v.employer }}</td>
+      <td>{{ v.employer_name }}</td>
+      <td>{{ v.start_date }}</td>
+      <td>{{ v.employee_count }}</td>
+      <td>{{ v.documents }}</td>
+      <td>{{ v.salary }}</td>
+      <td>{{ v.price }}</td>
+</tr>
 
 {%endfor%}
+
+</tbody>
+</table>
 
 {% endblock container %}

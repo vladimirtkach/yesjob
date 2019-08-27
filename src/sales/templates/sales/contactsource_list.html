@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+<h1>Источники контактов</h1>
+
+
+
+    <table class="table table-striped">
+  <thead>
+    <tr>
+
+      <th scope="col">Название</th>
+      <th scope="col">Описание</th>
+      <th scope="col">Количество контактов</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+{% for c in contactsource_list %}
+    <tr>
+
+      <td>{{ c.name }} </td>
+      <td>{{ c.description }}</td>
+      <td>{{ c.contact_set.count }}</td>
+
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+{% endblock %}

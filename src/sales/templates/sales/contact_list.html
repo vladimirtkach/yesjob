@@ -1,10 +1,18 @@
 {% extends 'base.html' %}
-
 {% block container %}
 
 
-<button type="button" class="btn btn-outline-primary"><a href="{% url 'sales:create_contact' %}"> Добавить контакт </a></button>
-
+<button type="button" class="btn btn-outline-primary" xmlns="http://www.w3.org/1999/html"><a href="{% url 'sales:create_contact' %}"> Добавить контакт </a></button>
+ <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+   <select name="search_type" id="">
+     <option value="tel1">Tel1</option>
+     <option value="tel2">Tel2</option>
+     <option value="last_name">Фамилия</option>
+   </select>
+   <input type="text" name="search">
+   <input type="submit" value="Поиск">
+ </form>
 {% if contact_list.has_other_pages %}
 <nav aria-label="Page navigation example">
   <ul class="pagination">
@@ -36,15 +44,19 @@
   <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">Тел1</th>
+      <th scope="col">Тел2</th>
       <th scope="col">Имя</th>
       <th scope="col">Фамилия</th>
       <th scope="col">Возраст</th>
       <th scope="col">Пол</th>
-      <th scope="col">Лид/Контакт</th>
       <th scope="col">Качество</th>
-      <th scope="col">Дата сл. прозвона</th>
+      <th scope="col">След. прозвон
+
+      </th>
       <th scope="col">Кол. прозвонов</th>
       <th scope="col">Источник</th>
+      <th scope="col">Источник Резюме</th>
       <th scope="col">Профиль</th>
     </tr>
   </thead>
@@ -53,15 +65,17 @@
 {% for c in contact_list%}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
+      <td>{{c.phone_main}}</td>
+      <td>{{c.phone_secondary}}</td>
       <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.first_name}}</a></td>
       <td>{{ c.last_name }}</td>
       <td>{{ c.age }}</td>
       <td>{{ c.sex }}</td>
-      <td>{% if c.lead_quality > 0 %} Лид {% else %} Контакт {%endif%}</td>
       <td>{{ c.lead_quality }}</td>
       <td>{{ c.next_contact_date}}</td>
-      <td>0</td>
+      <td> {{ c.interaction_set.count }}</td>
       <td>{{ c.source}}</td>
+      <td>{{ c.cv_url}}</td>
       <td>{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
     </tr>
 {% endfor %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block container %}
+
+{% if contact_list.has_other_pages %}
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {% if contact_list.has_previous %}
+    <li class="page-item"><a class="page-link" href="?page={{ contact_list.previous_page_number }}">Пред.</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">Пред.</a></li>
+    {% endif %}
+  {% for i in contact_list.paginator.page_range %}
+      {% if contact_list.number == i %}
+     <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+     {% if contact_list.has_next %}
+      <li class="page-item"><a class="page-link"  href="?page={{ contact_list.next_page_number }}">Cлед.</a></li>
+    {% else %}
+    <li class="page-item disabled"><a class="page-link" href="#">Cлед.</a></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+
+
+    <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Вакансия</th>
+      <th scope="col">Сопровождение</th>
+      <th scope="col">Продал</th>
+      <th scope="col">Цена</th>
+    </tr>
+  </thead>
+  <tbody>
+
+{% for o in orders %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{ o.vacancy.position }} </td>
+      <td>{{ o.provision_agent.email }}</td>
+      <td>{{ o.sale_agent.email }}</td>
+      <td>{{ o.sale_agent.email }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+{% endblock %}

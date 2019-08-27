@@ -3,7 +3,6 @@
 {% block container %}
 
 
-<button type="button" class="btn btn-outline-primary"><a href="{% url 'sales:create_contact' %}"> Добавить контакт </a></button>
 
 {% if contact_list.has_other_pages %}
 <nav aria-label="Page navigation example">
@@ -39,19 +38,25 @@
     {{agent_form}}
 
 </form>
+<form action="" method="get">
+    {% csrf_token %}
+    <input type="submit"  value="Фильтровать" >
+    {{agent_form}}
+
+</form>
 
     <script>
             var csrf_token = "";
         $("form#delegate").on("submit",function(){
-            var x = $("table input[type=checkbox]");
+            var x = $("table tbody input[type=checkbox]");
             var data = data = $.map(x,function(el) { if (el.checked==true)  { return el.id; }});
             $("#cids").val(data.join(","));
             return true;
         });
-        $("#num").change(function(){
-             var item = $(this);
-             window.location.href = window.location.href.replace(/(num=)[^\&]+/, '$1' + item.val());
-        });
+        <!--$("#num").change(function(){-->
+             <!--var item = $(this);-->
+             <!--window.location.href = window.location.href.replace(/(num=)[^\&]+/, '$1' + item.val());-->
+        <!--});-->
     </script>
 <table class="table table-striped">
   <thead>
@@ -60,9 +65,12 @@
       <th scope="col">Имя</th>
       <th scope="col">Возраст</th>
       <th scope="col">Пол</th>
+      <th scope="col">Качество</th>
+      <th scope="col">Потенциальный профиль</th>
       <th scope="col">Профиль</th>
+      <th scope="col">Дата создания</th>
       <th scope="col">Агент</th>
-      <th scope="col">Выбрать</th>
+      <th scope="col" > <input type="checkbox"  onchange="checkAll(this.checked)">Выбрать</input></th>
     </tr>
   </thead>
   <tbody>
@@ -73,11 +81,24 @@
       <td>{{ c.first_name}}  {{ c.last_name }}</td>
       <td>{{ c.age }}</td>
       <td>{{ c.sex }}</td>
-      <td>{{ c.profiles }}</td>
+      <td>{{ c.lead_quality }}</td>
+      <td>{% for p in  c.source.potential_profiles.all %} {{p}} {%endfor%}</td>
+      <td>{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
+      <td>{{ c.created_at }}</td>
       <td>{{ c.agent.user.name }}</td>
       <td><input type="checkbox" id="{{ c.pk }}"></td>
     </tr>
 {% endfor %}
   </tbody>
 </table>
+  <script>
+ function checkAll(c) {
+     var checkboxes = document.querySelectorAll("table tbody input[type=checkbox]");
+
+     for (var i = 0; i < checkboxes.length; i++) {
+             checkboxes[i].checked = c;
+
+     }
+ }
+  </script>
 {% endblock %}

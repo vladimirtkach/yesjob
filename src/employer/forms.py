@@ -6,6 +6,12 @@ class VacancyForm(forms.ModelForm):
     class Meta:
         model = Vacancy
         fields = '__all__'
+        widgets = {
+            'job_description': forms.Textarea(attrs={'cols': 50, 'rows': 12}),
+            'living_conditions': forms.Textarea(attrs={'cols': 50, 'rows': 5}),
+            'requirements': forms.Textarea(attrs={'cols': 50, 'rows': 8}),
+            'career_opportunities': forms.Textarea(attrs={'cols': 50, 'rows': 5}),
+        }
 
 
 class CreateEmployerForm(forms.ModelForm):
