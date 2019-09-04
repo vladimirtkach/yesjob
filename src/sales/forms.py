@@ -8,14 +8,12 @@ from datetime import timedelta
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        exclude = ['agent', 'source', 'in_sales', 'is_client']
+        exclude = ['agent', 'in_sales', 'is_client']
 
-    def save(self, agent=None, commit=True):
+    def save(self, user, commit=True):
         inst = super(ContactForm, self).save(commit=False)
-        if agent is not None:
-            inst.agent = agent
-            inst.source = "agent_" + agent.user.name
         if commit:
+            inst.agent = user
             inst.save()
             self.save_m2m()
         return inst
@@ -45,7 +43,7 @@ class InteractionForm(forms.ModelForm):
         model = Interaction
         exclude = ["agent", "interaction_date", "contact"]
         widgets = {
-            'result': forms.Textarea(attrs={'cols': 60, 'rows': 15}),
+            'result': forms.Textarea(attrs={'cols': 65, 'rows': 10}),
         }
         labels = {
             "result": "Результат",

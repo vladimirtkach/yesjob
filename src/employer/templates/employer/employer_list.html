@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block container %}
-    <h1 style="margin-top: 5%;">Список Работодателей</h1>
+    <h1 style="margin-top: 5%;">Список Провайдеров</h1>
+<a href="{% url 'employer:employer_create' %}">Добавить провайдера</a>
         {% for employer in employer_list %}
             <p>
                 <a href="{% url 'employer:employer_detail' pk=employer.id  %}">{{ employer.company_name }}</a>

@@ -46,11 +46,11 @@ def contact_list(r):
 
 @permission_required('auth.agent')
 def create_contact(r):
+    form = ContactForm()
     if r.method == 'POST':
         form = ContactForm(r.POST)
         if form.is_valid():
             form.save(r.user.profile)
-    form = ContactForm()
     return render(r, 'sales/create_contact.html', context={'form': form})
 
 @permission_required('auth.agent')

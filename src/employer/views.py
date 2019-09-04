@@ -128,3 +128,13 @@ def agent_create_note(request):
 def vacancy_detail(r, id):
     vacancy = Vacancy.objects.get(pk=id)
     return render(r, 'employer/vacancy_detail.html', context={'v': vacancy})
+
+
+@permission_required('auth.director')
+def vacancy_edit(r, id):
+    vacancy = Vacancy.objects.get(pk=id)
+    if r.method == 'POST':
+        form = VacancyForm(r.POST, instance=vacancy)
+        if form.is_valid():
+            form.save()
+    return render(r, 'create_vacancy_form.html', context={'form': VacancyForm(instance=vacancy)})

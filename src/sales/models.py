@@ -16,8 +16,8 @@ class Contact(models.Model):
     age = models.IntegerField(blank=True, default=0)
     sex = models.CharField(max_length=1, blank=True, choices=(("м", "Мужской"),("ж", "Женский")))
     is_client = models.BooleanField(default=False)
-    in_sales = models.BooleanField(default=False)
-    profiles = models.ManyToManyField("SkillProfile", default=None)
+    in_sales = models.BooleanField(default=True)
+    profiles = models.ManyToManyField("SkillProfile", default=None, blank=True)
     agent = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1)
     source = models.ForeignKey("ContactSource", on_delete=models.CASCADE)
     lead_quality = models.IntegerField(default=0)
@@ -42,7 +42,8 @@ class Interaction(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
     result = models.CharField(max_length=200, blank=True)
     interaction_date = models.DateTimeField(auto_now=True)
-    type = models.CharField(max_length=200, choices=(("звонок", "Звонок"),("email", "Email"),("sms", "Sms"),("messenger", "Messenger")))
+    type = models.CharField(max_length=200, choices=(("звонок", "Звонок"),("email", "Email"),("sms", "Sms"),
+                                                     ("messenger", "Messenger"), ("автопрозвон", "Автопрозвон")))
 
 class Order(models.Model):
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)

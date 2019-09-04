@@ -8,6 +8,7 @@ urlpatterns = [
     path("<id>/vacancy/", VacancyList.as_view(), name="vacancy_list"),
     path("vacancy/", VacancyList.as_view(), name="all_vacancies"),
     path("vacancy/<id>", vacancy_detail, name="vacancy_detail"),
+    path("vacancy/<id>/edit", vacancy_edit, name="vacancy_edit"),
     path("", EmployerList.as_view(), name="employers_list"),
     path("create/", CreateEmployer.as_view(), name="employer_create"),
     path("<id>/contacts/", CreateContactPerson.as_view(), name="employer_contact_create"),
