@@ -8,7 +8,7 @@ from datetime import timedelta
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        exclude = ['agent', 'in_sales', 'is_client']
+        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at']
 
     def save(self, user, commit=True):
         inst = super(ContactForm, self).save(commit=False)
@@ -20,21 +20,24 @@ class ContactForm(forms.ModelForm):
 
 class AgentForm(forms.Form):
     choices = [ (i.pk, i.name) for i in (User.objects.filter(groups__name='Agent') | User.objects.filter(groups__name='SuperAgent'))]
+    choices.append((1, "Admin"))
     agent = forms.ChoiceField(choices=choices)
 
 class AgentStats(AgentForm):
     start_date=forms.DateField(label="Начало периода", widget=forms.TextInput(attrs={'autocomplete':'off'}),
                                initial=date.today()-timedelta(days = 15))
-    end_date=forms.DateField(label="Конец периода", widget=forms.TextInput(attrs={'autocomplete':'off'}), initial=date.today())
+    end_date=forms.DateField(label="Конец периода", widget=forms.TextInput(attrs={'autocomplete':'off'}),
+                             initial=date.today()+timedelta(days = 1))
     choices = [(i.pk, i.name) for i in
                (User.objects.filter(groups__name='Agent') | User.objects.filter(groups__name='SuperAgent'))]
     choices.insert(0, ("all","Все"))
     agent = forms.ChoiceField(choices=choices)
 
 
-class ContactSourceForm(forms.Form):
-        choices = [(i.pk, i.name) for i in ContactSource.objects.all()]
-        source = forms.ChoiceField(choices=choices)
+class ContactSourceForm(forms.ModelForm):
+        class Meta:
+            model=ContactSource
+            fields='__all__'
 
 
 class InteractionForm(forms.ModelForm):
@@ -62,3 +65,8 @@ class InteractionForm(forms.ModelForm):
     # def __init__(self, data, choices=None, *args, **kwargs):
     #     super(InteractionForm, self).__init__(data, *args, **kwargs)
     #     self.fields['sale_position'] = forms.ChoiceField(choices=choices)
+
+class SkillProfileForm(forms.ModelForm):
+    class Meta:
+        model = SkillProfile
+        fields = '__all__'

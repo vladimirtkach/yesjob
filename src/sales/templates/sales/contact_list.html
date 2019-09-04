@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block container %}
 
-
 <button type="button" class="btn btn-outline-primary" xmlns="http://www.w3.org/1999/html"><a href="{% url 'sales:create_contact' %}"> Добавить контакт </a></button>
  <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -17,8 +16,7 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     {% if contact_list.has_previous %}
-
-    <li class="page-item"><a class="page-link" href="?page={{ contact_list.previous_page_number }}">Пред.</a></li>
+    <li class="page-item"><a class="page-link" href="?page={{ contact_list.previous_page_number }}&order={{order}}">Пред.</a></li>
     {% else %}
     <li class="page-item disabled"><a class="page-link" href="#">Пред.</a></li>
     {% endif %}
@@ -26,16 +24,14 @@
       {% if contact_list.number == i %}
      <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
       {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ i }}&order={{order}}">{{ i }}</a></li>
       {% endif %}
     {% endfor %}
      {% if contact_list.has_next %}
-      <li class="page-item"><a class="page-link"  href="?page={{ contact_list.next_page_number }}">След.</a></li>
+      <li class="page-item"><a class="page-link"  href="?page={{ contact_list.next_page_number }}&order={{order}}">След.</a></li>
     {% else %}
-
     <li class="page-item disabled"><a class="page-link" href="#">След.</a></li>
     {% endif %}
-
   </ul>
 {% endif %}
 
@@ -51,12 +47,17 @@
       <th scope="col">Возраст</th>
       <th scope="col">Пол</th>
       <th scope="col">Качество</th>
-      <th scope="col">След. прозвон
-
+      <th scope="col">След. прозвон <a href="{% url 'sales:contact_list'%}?order=-next_contact_date">Посл</a>
+      <a href="{% url 'sales:contact_list'%}?order=next_contact_date">Перв</a>
+      </th>
+      <th scope="col">Послед. прозвон
+         <a href="{% url 'sales:contact_list'%}?order=-last_contact_date">Посл</a>
+         <a href="{% url 'sales:contact_list'%}?order=last_contact_date">Перв</a>
       </th>
       <th scope="col">Кол. прозвонов</th>
       <th scope="col">Источник</th>
       <th scope="col">Источник Резюме</th>
+      <th scope="col">Заголовок Резюме</th>
       <th scope="col">Профиль</th>
     </tr>
   </thead>
@@ -73,9 +74,11 @@
       <td>{{ c.sex }}</td>
       <td>{{ c.lead_quality }}</td>
       <td>{{ c.next_contact_date}}</td>
+      <td>{{ c.last_contact_date}}</td>
       <td> {{ c.interaction_set.count }}</td>
       <td>{{ c.source}}</td>
-      <td>{{ c.cv_url}}</td>
+      <td><a href="{{ c.cv_url}}" target="_blank">ссылка</a></td>
+      <td>{{ c.cv_title}}</td>
       <td>{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
     </tr>
 {% endfor %}

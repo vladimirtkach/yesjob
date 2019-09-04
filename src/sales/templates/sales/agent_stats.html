@@ -26,7 +26,7 @@
 {% for i in interactions %}
     <tr>
       <td>{{ i.agent }} </td>
-      <td>{{ i.contact }}</td>
+      <td><a href="{% url 'sales:contact_details' c.id  %}">{{ i.contact }}</a></td>
       <td>{{ i.interaction_date }}</td>
       <td>{{ i.result }}</td>
       <td>{{ i.order }}</td>

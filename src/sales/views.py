@@ -13,8 +13,7 @@ import csv
 User = get_user_model()
 
 
-class ContactSourceList(ListView):
-    model = ContactSource
+
 
 
 @permission_required('auth.agent')
@@ -70,6 +69,7 @@ def contact_details(r,id):
         if form.is_valid():
             interaction = form.save(agent=r.user, contact=contact)
             contact.next_contact_date = form.cleaned_data["date"]
+            contact.last_contact_date = datetime.now()
             contact.save()
             if r.POST["vac_id"] != "nosale":
                 vac_id=r.POST["vac_id"]
@@ -111,8 +111,6 @@ def delegate_list(r):
 
 @permission_required('auth.admin')
 def manage_list(r):
-
-
     if r.method == 'POST' and "file" in r.FILES:
         lines = [l.decode("utf-8") for l in r.FILES["file"].readlines()]
         source = ContactSource.objects.get(pk=r.POST['source'])
@@ -125,13 +123,14 @@ def manage_list(r):
                 first_name=c[1],
                 last_name=c[2],
                 cv_url=c[3],
+                cv_title=c[5],
                 email=c[4],
                 source=source,
-                in_sales=True,
+
             ))
         Contact.objects.bulk_create(contacts, ignore_conflicts=True)
         
-        return render(r, 'sales/manage_list.html')
+        # return render(r, 'sales/manage_list.html')
     elif r.method == 'POST' and "cids" in r.POST:
         c_ids = r.POST["cids"].split(",")
         if c_ids[0] is not '':
@@ -139,7 +138,7 @@ def manage_list(r):
     contacts = Contact.objects.all()
     page = r.GET.get('page', 1)
     num = r.GET.get('num', 200)
-
+    sources = ContactSource.objects.all()
     paginator = Paginator(contacts, num)
     try:
         contacts_paginated = paginator.page(page)
@@ -147,12 +146,15 @@ def manage_list(r):
         contacts_paginated = paginator.page(1)
     except EmptyPage:
         contacts_paginated = paginator.page(paginator.num_pages)
-    return render(r, 'sales/manage_list.html', context={'contact_list': contacts_paginated, "source_form":ContactSourceForm()})
+    return render(r, 'sales/manage_list.html', context={'contact_list': contacts_paginated, "sources":sources})
 
 
-@permission_required('auth.superagent')
+@permission_required('auth.agent')
 def order_list(r):
-    orders = Order.objects.all()
+    if r.user.groups.filter(name='Agent').exists():
+        orders = orders = Order.objects.filter(sale_agent=r.user.id)
+    else:
+        orders = Order.objects.all()
     page = r.GET.get('page', 1)
     num = r.GET.get('num', 50)
 
@@ -181,3 +183,45 @@ def agent_stats(r):
     agent = "Все агенты" if agent_id=="all" else User.objects.get(pk=agent_id)
     return render(r, 'sales/agent_stats.html', context=
     {'orders_count': orders_count,'interactions': interactions, 'agent_stats_form': form, "agent":agent})
+
+
+def postback_handle(r):
+    ct_phone = r.GET.get("ct_phone")
+    ct_button_num = r.GET.get("ct_button_num")
+    if ct_button_num == "1":
+        contact = Contact.objects.filter(phone_main__contains=ct_phone)
+        interaction = Interaction(
+            agent=User.objects.get(pk=1),
+            contact=contact.first(),
+            result="Успешный автопрозвон",
+            type="автопрозвон"
+        )
+        interaction.save()
+
+@permission_required('auth.superagent')
+def create_profile(r):
+    form = SkillProfileForm()
+    profiles = SkillProfile.objects.all()
+
+    if r.method == 'POST':
+        form = SkillProfileForm(r.POST)
+        if form.is_valid():
+            form.save()
+    return render(r, 'sales/create_profile.html', context={'form': form, 'profiles': profiles})
+
+
+class ContactSourceList(ListView):
+    model = ContactSource
+
+
+@permission_required('auth.superagent')
+def create_contact_source(r):
+    form = ContactSourceForm()
+
+    if r.method == 'POST':
+        form = ContactSourceForm(r.POST)
+        if form.is_valid():
+            form.save()
+    return render(r, 'sales/create_contact_source.html', context={'form': form})
+
+

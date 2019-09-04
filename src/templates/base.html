@@ -114,13 +114,13 @@
       {% if perms.auth.agent %}
       <!-- Nav Item - Employer -->
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'sales:contact_list' %}">
+        <a class="nav-link" href="{% url 'sales:contact_list' %}?order=next_contact_date">
           <i class="fas fa-fw fa-table"></i>
           <span>Прозвон Контактов</span></a>
       </li>
       {% endif %}
 
-      {% if perms.auth.superagent %}
+      {% if perms.auth.agent %}
       <!-- Nav Item - Employer -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'sales:order_list' %}">
@@ -138,7 +138,7 @@
       </li>
       {% endif %}
 
-      {% if perms.auth.superagent %}
+      {% if perms.auth.agent %}
       <!-- Nav Item - Employer -->
       <li class="nav-item">
         <a class="nav-link" href="{% url 'sales:contact_source_list' %}">

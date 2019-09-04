@@ -5,7 +5,13 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <input type="file" name="file">
-    {{source_form}}
+    <select name="source" id="">
+        {% for s in sources %}
+            <option value="{{s.id}}">{{s.name}}</option>
+        {% endfor %}
+
+    </select>
+
     <button type="submit">Загрузить</button>
   </form>
 
@@ -84,7 +90,7 @@
 {% for c in contact_list%}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
-      <td>{{ c.first_name}}  {{ c.last_name }}</td>
+        <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
       <td>{{ c.in_sales }}</td>
       <td>{{ c.source }}</td>
        <td><input type="checkbox" id="{{ c.pk }}"></td>

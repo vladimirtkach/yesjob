@@ -35,6 +35,7 @@
       <th scope="col">Сопровождение</th>
       <th scope="col">Продал</th>
       <th scope="col">Цена</th>
+      <th scope="col">Вознаграждение</th>
     </tr>
   </thead>
   <tbody>
@@ -42,10 +43,11 @@
 {% for o in orders %}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
-      <td>{{ o.vacancy.position }} </td>
+      <td>{{ o.vacancy.position_title }} </td>
       <td>{{ o.provision_agent.email }}</td>
       <td>{{ o.sale_agent.email }}</td>
-      <td>{{ o.sale_agent.email }}</td>
+      <td>{{ o.price }}</td>
+      <td>Скоро будет </td>
     </tr>
 {% endfor %}
   </tbody>

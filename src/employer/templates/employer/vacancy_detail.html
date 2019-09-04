@@ -2,7 +2,7 @@
 
 {% block container %}
     <h1 class="h3 mb-2 text-gray-800"> Вакансия {{ v.position_title }} </h1>
-    
+<a href="{% url 'employer:vacancy_edit' v.id %}"> Изменить</a>
     <div class="row">
         <div class="col-md-10">
             <table class="table table-striped">
@@ -20,7 +20,7 @@
       <td>Статус</td><td>{{v.status}}</td>
     </tr>
     <tr>
-      <td>Цена</td><td>{{v.price}}</td>
+      <td>Цена</td><td>{{v.price}} Евро</td>
     </tr>
        <tr>
       <td>Документы</td><td>{{v.documents}}</td>

@@ -4,7 +4,7 @@
 
 <h1>Источники контактов</h1>
 
-
+<a href="{% url 'sales:create_contact_source' %}"> Добавить новый</a>
 
     <table class="table table-striped">
   <thead>
@@ -12,6 +12,7 @@
 
       <th scope="col">Название</th>
       <th scope="col">Описание</th>
+      <th scope="col">Потенциальные профили контактов</th>
       <th scope="col">Количество контактов</th>
 
     </tr>
@@ -23,6 +24,7 @@
 
       <td>{{ c.name }} </td>
       <td>{{ c.description }}</td>
+      <td>{% for p in  c.potential_profiles.all %} {{p}} {%endfor%}</td>
       <td>{{ c.contact_set.count }}</td>
 
     </tr>

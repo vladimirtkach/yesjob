@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+    {% load crispy_forms_tags %}
+
+{% block container %}
+<div class="row">
+    <div class="col-md-3">
+        <h4>Список профилей</h4>
+        <ul>
+        {% for p in profiles %}
+            <li>{{p}}</li>
+        {% endfor %}
+        </ul>
+
+    </div>
+    <div class="col-md-3">
+
+        <form action="" method="post">
+            {%csrf_token%}
+            {{ form | crispy }}
+            <input type="submit" value="Добавить">
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
