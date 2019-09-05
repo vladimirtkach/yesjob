@@ -21,8 +21,8 @@ class Vacancy(models.Model):
     entering_bonus = models.CharField(max_length=500, blank=True, verbose_name="Бонус при выходе на работу")
     year_bonus = models.CharField(max_length=500, blank=True, verbose_name="Годовой бонус")
     career_opportunities = models.CharField(max_length=20, blank=True, verbose_name="Возможности карьерного роста")
-    status = models.CharField(max_length=200, blank=True, default="active", choices=(("active","Активная"),("hold","Приостановленная"),("archive","Архивная")))
-    documents = models.CharField(max_length=200, blank=True, choices=(("Виза 3 мес","Виза 3 мес"),("Виза 1 год","Виза 1 год"),("Рабочая карта","Рабочая карта"),
+    status = models.CharField(max_length=200, blank=True, default="active",  verbose_name="Статус", choices=(("active","Активная"),("hold","Приостановленная"),("archive","Архивная")))
+    documents = models.CharField(max_length=200, blank=True, verbose_name="Документы", choices=(("Виза 3 мес","Виза 3 мес"),("Виза 1 год","Виза 1 год"),("Рабочая карта","Рабочая карта"),
                                                                       ("Виза 3 месяца + Карта","Виза 3 месяца + Карта"),("Виза 1 год + Карта","Виза 1 год + Карта")))
     # profiles = models.ManyToManyField(m.SkillProfile, default=None)
     price = models.IntegerField(blank=True, verbose_name="Стоимость вакансии")

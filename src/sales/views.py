@@ -57,7 +57,7 @@ def update_contact(r, id):
     if r.method == 'POST':
         form = ContactForm(r.POST, instance=Contact.objects.get(pk=id))
         if form.is_valid():
-            form.save()
+            form.save(r.user.profile)
     form = ContactForm(instance=Contact.objects.get(pk=id))
     return render(r, 'sales/update_contact.html', context={'form': form})
 
