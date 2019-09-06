@@ -47,6 +47,7 @@
       <th scope="col">Возраст</th>
       <th scope="col">Пол</th>
       <th scope="col">Качество</th>
+      <th scope="col">Комментарий</th>
       <th scope="col">След. прозвон <a href="{% url 'sales:contact_list'%}?order=-next_contact_date">Посл</a>
       <a href="{% url 'sales:contact_list'%}?order=next_contact_date">Перв</a>
       </th>
@@ -55,7 +56,7 @@
          <a href="{% url 'sales:contact_list'%}?order=last_contact_date">Перв</a>
       </th>
       <th scope="col">Кол. прозвонов</th>
-      <th scope="col">Источник</th>
+      <th scope="col">Источник Контакта</th>
       <th scope="col">Источник Резюме</th>
       <th scope="col">Заголовок Резюме</th>
       <th scope="col">Профиль</th>
@@ -73,6 +74,8 @@
       <td>{{ c.age }}</td>
       <td>{{ c.sex }}</td>
       <td>{{ c.lead_quality }}</td>
+            <td>{{ c.comment }}</td>
+
       <td>{{ c.next_contact_date}}</td>
       <td>{{ c.last_contact_date}}</td>
       <td> {{ c.interaction_set.count }}</td>
