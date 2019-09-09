@@ -12,7 +12,11 @@ import csv
 
 User = get_user_model()
 
-
+def get_or (l, idx, default=""):
+  try:
+    return l[idx]
+  except IndexError:
+    return default
 
 
 
@@ -116,15 +120,14 @@ def manage_list(r):
         source = ContactSource.objects.get(pk=r.POST['source'])
         reader = csv.reader(lines)
         contacts = []
-        next(reader)
         for c in reader:
             contacts.append(Contact(
-                phone_main=c[0],
-                first_name=c[1],
-                last_name=c[2],
-                cv_url=c[3],
-                cv_title=c[5],
-                email=c[4],
+                phone_main=get_or(c,0),
+                first_name=get_or(c,1),
+                last_name=get_or(c,2),
+                cv_url=get_or(c,3),
+                cv_title=get_or(c,5),
+                email=get_or(c,4),
                 source=source,
 
             ))
