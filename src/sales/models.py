@@ -45,6 +45,8 @@ class Interaction(models.Model):
     interaction_date = models.DateTimeField(auto_now=True)
     type = models.CharField(max_length=200, choices=(("звонок", "Звонок"),("email", "Email"),("sms", "Sms"),
                                                      ("messenger", "Messenger"), ("автопрозвон", "Автопрозвон")))
+    class Meta:
+        get_latest_by='id'
 
 class Order(models.Model):
     vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)

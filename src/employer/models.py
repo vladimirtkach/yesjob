@@ -26,6 +26,7 @@ class Vacancy(models.Model):
     documents = models.CharField(max_length=200, blank=True, verbose_name="Документы", choices=(("Виза 3 мес","Виза 3 мес"),("Виза 1 год","Виза 1 год"),("Рабочая карта","Рабочая карта"),
                                                                       ("Виза 3 месяца + Карта","Виза 3 месяца + Карта"),("Виза 1 год + Карта","Виза 1 год + Карта")))
     price = models.IntegerField(verbose_name="Стоимость вакансии")
+    for_pairs = models.BooleanField(default=False, verbose_name="Для семейных пар")
     def __str__(self):
         return self.position_title
 

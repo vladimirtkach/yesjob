@@ -27,7 +27,7 @@
         <li class="page-item"><a class="page-link" href="?page={{ i }}&order={{order}}">{{ i }}</a></li>
       {% endif %}
     {% endfor %}
-     {% if contact_list.has_next %}
+    {% if contact_list.has_next %}
       <li class="page-item"><a class="page-link"  href="?page={{ contact_list.next_page_number }}&order={{order}}">След.</a></li>
     {% else %}
     <li class="page-item disabled"><a class="page-link" href="#">След.</a></li>
@@ -36,29 +36,37 @@
 {% endif %}
 
   <div class="row">
-    <div class="col-md-12">
+    <div class="table-responsive">
+
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Тел1</th>
-      <th scope="col">Тел2</th>
       <th scope="col">Имя</th>
-      <th scope="col">Фамилия</th>
       <th scope="col">Возраст</th>
-      <th scope="col">Пол</th>
-      <th scope="col">Качество</th>
-      <th scope="col">Комментарий</th>
-      <th scope="col">След. прозвон <a href="{% url 'sales:contact_list'%}?order=-next_contact_date">Посл</a>
-      <a href="{% url 'sales:contact_list'%}?order=next_contact_date">Перв</a>
+      <th scope="col">Качество
+        <a href="{% url 'sales:contact_list'%}?order=-lead_quality">&darr;</a>
+         <a href="{% url 'sales:contact_list'%}?order=lead_quality">&uarr;</a>
       </th>
-      <th scope="col">Послед. прозвон
-         <a href="{% url 'sales:contact_list'%}?order=-last_contact_date">Посл</a>
-         <a href="{% url 'sales:contact_list'%}?order=last_contact_date">Перв</a>
+      <th scope="col">Комментарий</th>
+      <th scope="col">Сл. Звон.
+        <a href="{% url 'sales:contact_list'%}?order=-next_contact_date">&darr;</a>
+      <a href="{% url 'sales:contact_list'%}?order=next_contact_date">&uarr;</a>
+      </th>
+      <th scope="col">Посл. Звон.
+        <a href="{% url 'sales:contact_list'%}?order=-last_contact_date">&darr;</a>
+         <a href="{% url 'sales:contact_list'%}?order=last_contact_date">&uarr;</a>
+      </th>
+      <th>
+        Результат
       </th>
       <th scope="col">Кол. прозвонов</th>
-      <th scope="col">Источник Контакта</th>
+      <th scope="col">Источник Контакта
+       <a href="{% url 'sales:contact_list'%}?order=-source__name">&darr;</a>
+         <a href="{% url 'sales:contact_list'%}?order=source__name">&uarr;</a>
+      </th>
       <th scope="col">Источник Резюме</th>
       <th scope="col">Заголовок Резюме</th>
       <th scope="col">Профиль</th>
@@ -66,19 +74,17 @@
   </thead>
   <tbody>
 
-{% for c in contact_list%}
+{% for c in contact_list %}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
       <td><a href="{% url 'sales:contact_details' c.id  %}">{{c.phone_main}}</a></td>
-      <td>{{c.phone_secondary}}</td>
       <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.first_name}}</a></td>
-      <td>{{ c.last_name }}</td>
       <td>{{ c.age }}</td>
-      <td>{{ c.sex }}</td>
       <td>{{ c.lead_quality }}</td>
       <td>{{ c.comment }}</td>
-      <td>{{ c.next_contact_date}}</td>
+       <td>{{ c.next_contact_date}}</td>
       <td>{{ c.last_contact_date}}</td>
+      <td>{{ c.interaction_set.latest.result }}</td>
       <td> {{ c.interaction_set.count }}</td>
       <td>{{ c.source}}</td>
       <td><a href="{{ c.cv_url}}" target="_blank">ссылка</a></td>
@@ -87,7 +93,7 @@
     </tr>
 {% endfor %}
   </tbody>
-</table>
+  </table>
     </div>
   </div>
 {% endblock %}

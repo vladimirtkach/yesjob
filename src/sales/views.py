@@ -2,7 +2,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import permission_required
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import ListView
 
 from .models import *
@@ -225,6 +227,7 @@ def create_contact_source(r):
         form = ContactSourceForm(r.POST)
         if form.is_valid():
             form.save()
+            return HttpResponseRedirect(reverse('sales:contact_source_list'))
     return render(r, 'sales/create_contact_source.html', context={'form': form})
 
 
