@@ -37,6 +37,7 @@
       <th scope="col">Работодатель</th>
       <th scope="col">Старт работы</th>
       <th scope="col">Количество работников</th>
+      <th scope="col">Семейные Пары</th>
       <th scope="col">Тип документов</th>
       <th scope="col">Зарплата</th>
       <th scope="col">Цена</th>
@@ -53,6 +54,7 @@
       <td>{{ v.employer_name }}</td>
       <td>{{ v.start_date }}</td>
       <td>{{ v.employee_count }}</td>
+      <td>{{ v.for_pair|yesno:"Да,Нет" }}</td>
       <td>{{ v.documents }}</td>
       <td>{{ v.salary }}</td>
       <td>{{ v.price }}</td>
