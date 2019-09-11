@@ -3,7 +3,7 @@
 
 <button type="button" class="btn btn-outline-primary" xmlns="http://www.w3.org/1999/html"><a href="{% url 'sales:create_contact' %}"> Добавить контакт </a></button>
  <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+   {% csrf_token %}
    <select name="search_type" id="">
      <option value="tel1">Tel1</option>
      <option value="tel2">Tel2</option>
@@ -35,6 +35,8 @@
   </ul>
 {% endif %}
 
+  <div class="row">
+    <div class="col-md-12">
 
 <table class="table table-striped">
   <thead>
@@ -74,8 +76,7 @@
       <td>{{ c.age }}</td>
       <td>{{ c.sex }}</td>
       <td>{{ c.lead_quality }}</td>
-            <td>{{ c.comment }}</td>
-
+      <td>{{ c.comment }}</td>
       <td>{{ c.next_contact_date}}</td>
       <td>{{ c.last_contact_date}}</td>
       <td> {{ c.interaction_set.count }}</td>
@@ -87,4 +88,6 @@
 {% endfor %}
   </tbody>
 </table>
+    </div>
+  </div>
 {% endblock %}

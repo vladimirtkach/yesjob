@@ -3,7 +3,8 @@ from django.db import models
 class Vacancy(models.Model):
     employer = models.ForeignKey("Employer", on_delete=models.CASCADE, verbose_name="Провайдер")
     position_title = models.CharField(max_length=200, verbose_name="Название вакансии")
-    employer_name = models.CharField(max_length=200, blank=True, verbose_name="Название работодателя")
+    employer_name = models.CharField(max_length=80, blank=True, verbose_name="Название работодателя")
+    employer_description = models.CharField(max_length=400, blank=True, verbose_name="Описание компании работодателя")
     job_description = models.CharField(max_length=1000, blank=True, verbose_name="Описание работы")
     requirements = models.CharField(max_length=500, blank=True, verbose_name="Требования к работнику")
     employee_count = models.CharField(max_length=200, blank=True, verbose_name="Необходимое количество работников")
