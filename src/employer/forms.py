@@ -8,6 +8,7 @@ class VacancyForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'job_description': forms.Textarea(attrs={'cols': 50, 'rows': 12}),
+            'employer_description': forms.Textarea(attrs={'cols': 50, 'rows': 8}),
             'living_conditions': forms.Textarea(attrs={'cols': 50, 'rows': 5}),
             'requirements': forms.Textarea(attrs={'cols': 50, 'rows': 8}),
             'career_opportunities': forms.Textarea(attrs={'cols': 50, 'rows': 5}),

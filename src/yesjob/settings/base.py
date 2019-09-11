@@ -109,6 +109,8 @@ DATABASES = {
 
 LANGUAGE_CODE = "en-us"
 
+DATE_INPUT_FORMATS = ('%d.%m.%y')
+
 TIME_ZONE = "UTC"
 
 USE_I18N = True

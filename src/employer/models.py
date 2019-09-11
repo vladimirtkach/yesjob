@@ -25,8 +25,7 @@ class Vacancy(models.Model):
     status = models.CharField(max_length=200, blank=True, default="active",  verbose_name="Статус", choices=(("active","Активная"),("hold","Приостановленная"),("archive","Архивная")))
     documents = models.CharField(max_length=200, blank=True, verbose_name="Документы", choices=(("Виза 3 мес","Виза 3 мес"),("Виза 1 год","Виза 1 год"),("Рабочая карта","Рабочая карта"),
                                                                       ("Виза 3 месяца + Карта","Виза 3 месяца + Карта"),("Виза 1 год + Карта","Виза 1 год + Карта")))
-    # profiles = models.ManyToManyField(m.SkillProfile, default=None)
-    price = models.IntegerField(blank=True, verbose_name="Стоимость вакансии")
+    price = models.IntegerField(verbose_name="Стоимость вакансии")
     def __str__(self):
         return self.position_title
 

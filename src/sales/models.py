@@ -1,5 +1,4 @@
 from datetime import datetime
-
 from django.db import models
 from django.utils import timezone
 from django.utils.datetime_safe import date
@@ -7,11 +6,12 @@ from employer.models import Vacancy
 from profiles.models import Profile
 from django.conf import settings
 
-
 class Contact(models.Model):
     first_name = models.CharField(max_length=250, blank=True, verbose_name="Имя")
     last_name = models.CharField(max_length=500, blank=True, verbose_name="Фамилия")
-    phone_main = models.CharField(max_length=50, unique=True, verbose_name="Телефон")
+    phone_main = models.CharField(max_length=50, unique=True, verbose_name="Телефон1")
+    phone2 = models.CharField(max_length=50,  blank=True, verbose_name="Телефон2")
+    phone3 = models.CharField(max_length=50,  blank=True, verbose_name="Телефон3")
     email = models.CharField(max_length=50, blank=True, verbose_name="Имейл")
     age = models.IntegerField(blank=True, default=0, verbose_name="Возраст")
     sex = models.CharField(max_length=1, blank=True, choices=(("м", "Мужской"),("ж", "Женский")), verbose_name="Пол")
@@ -22,13 +22,13 @@ class Contact(models.Model):
     source = models.ForeignKey("ContactSource", on_delete=models.CASCADE, verbose_name="Источник контакта")
     lead_quality = models.IntegerField(default=0, verbose_name="Качество лида")
     city = models.CharField(max_length=200, default='', blank=True, verbose_name="Город проживания")
-    next_contact_date = models.DateTimeField(default='1980-01-01 12:12:12')
+    next_contact_date = models.DateTimeField(default='1980-01-01 12:12:12', verbose_name="Дата следующего контакта")
     last_contact_date = models.DateTimeField(default='1980-01-01 12:12:12')
     comment = models.CharField(max_length=500, blank=True, verbose_name="Комментарий")
     cv_url = models.CharField(max_length=250, blank=True, verbose_name="Ссылка на резюме")
     cv_title = models.CharField(max_length=100, blank=True, verbose_name="Заголовок резюме")
-    created_at = models.DateTimeField( default=timezone.now)
-    updated_at = models.DateTimeField( default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.first_name

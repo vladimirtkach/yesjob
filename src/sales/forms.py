@@ -8,7 +8,7 @@ from datetime import timedelta
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
-        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at']
+        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date']
 
     def save(self, user, commit=True):
         inst = super(ContactForm, self).save(commit=False)
@@ -20,7 +20,8 @@ class ContactForm(forms.ModelForm):
 
 class AgentForm(forms.Form):
     choices = [ (i.pk, i.name) for i in (User.objects.filter(groups__name='Agent') | User.objects.filter(groups__name='SuperAgent'))]
-    choices.append((1, "Admin"))
+    choices.append((0, "Admin"))
+
     agent = forms.ChoiceField(choices=choices)
 
 class AgentStats(AgentForm):
