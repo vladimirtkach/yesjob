@@ -20,7 +20,7 @@ class ContactForm(forms.ModelForm):
 
 class AgentForm(forms.Form):
     choices = [ (i.pk, i.name) for i in (User.objects.filter(groups__name='Agent') | User.objects.filter(groups__name='SuperAgent'))]
-    choices.append((0, "Admin"))
+    choices.append((1, "Admin"))
 
     agent = forms.ChoiceField(choices=choices)
 
