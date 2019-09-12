@@ -12,6 +12,8 @@ class Contact(models.Model):
     phone_main = models.CharField(max_length=50, unique=True, verbose_name="Телефон1")
     phone2 = models.CharField(max_length=50,  blank=True, verbose_name="Телефон2")
     phone3 = models.CharField(max_length=50,  blank=True, verbose_name="Телефон3")
+    viber = models.CharField(max_length=50,  blank=True, verbose_name="Вайбер")
+    telegram = models.CharField(max_length=50,  blank=True, verbose_name="Телеграм")
     email = models.CharField(max_length=50, blank=True, verbose_name="Имейл")
     age = models.IntegerField(blank=True, default=0, verbose_name="Возраст")
     sex = models.CharField(max_length=1, blank=True, choices=(("м", "Мужской"),("ж", "Женский")), verbose_name="Пол")
@@ -27,6 +29,10 @@ class Contact(models.Model):
     comment = models.CharField(max_length=500, blank=True, verbose_name="Комментарий")
     cv_url = models.CharField(max_length=250, blank=True, verbose_name="Ссылка на резюме")
     cv_title = models.CharField(max_length=100, blank=True, verbose_name="Заголовок резюме")
+    color = models.CharField(max_length=20, blank=True, verbose_name="Цвет",
+                             choices=(("purple","Фиолетовый"),("pink","Розовый"),("blue","Синий"),("SkyBlue","Голубой"),
+        ("green","Зеленый"),("limegreen","СветлоЗеленый"),("yellow","Желтый"),("orange","Оранжевый"),
+        ("tomato","Томат"),("red","Красный"),("brown","Коричневый")))
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 

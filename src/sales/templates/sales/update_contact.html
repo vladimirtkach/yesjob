@@ -5,7 +5,10 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{form | crispy }}
+
+            <div class="controls">
     <button type="submit" class="btn btn-primary"> Обновить</button>
+            </div>
 </form>
 
 {% endblock container %}

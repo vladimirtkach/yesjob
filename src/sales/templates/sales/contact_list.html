@@ -76,7 +76,7 @@
 
 {% for c in contact_list %}
     <tr>
-      <th scope="row">{{forloop.counter}}</th>
+      <th scope="row" style="background-color: {{c.color}}">{{forloop.counter}}</th>
       <td><a href="{% url 'sales:contact_details' c.id  %}">{{c.phone_main}}</a></td>
       <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.first_name}}</a></td>
       <td>{{ c.age }}</td>
