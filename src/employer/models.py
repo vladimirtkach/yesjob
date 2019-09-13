@@ -2,7 +2,7 @@ from django.db import models
 
 class Vacancy(models.Model):
     employer = models.ForeignKey("Employer", on_delete=models.CASCADE, verbose_name="Провайдер")
-    position_title = models.CharField(max_length=180, verbose_name="Название вакансии")
+    position_title = models.CharField(max_length=580, verbose_name="Название вакансии")
     employer_name = models.CharField(max_length=80, blank=True, verbose_name="Название работодателя")
     employer_description = models.CharField(max_length=400, blank=True, verbose_name="Описание компании работодателя")
     job_description = models.CharField(max_length=1000, blank=True, verbose_name="Описание работы")
