@@ -70,18 +70,13 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Тел1</th>
-      <th scope="col">Тел2</th>
       <th scope="col">Имя</th>
-      <th scope="col">Возраст</th>
-      <th scope="col">Пол</th>
-      <th scope="col">Качество</th>
-      <th scope="col">Источник</th>
-      <th scope="col">Потенциальный профиль</th>
-      <th scope="col">Профиль</th>
-      <th scope="col">Дата создания</th>
-      <th scope="col">Агент</th>
-      <th scope="col" > <input type="checkbox"  onchange="checkAll(this.checked)">Выбрать</input></th>
+        <th scope="col">Агент</th>
+        <th scope="col">Добавлен</th>
+        <th scope="col">Источник</th>
+        <th scope="col">Пот. профиль</th>
+        <th scope="col">Качество</th>
+        <th scope="col"> <input type="checkbox"  onchange="checkAll(this.checked)">Выбрать</input></th>
     </tr>
   </thead>
   <tbody>
@@ -89,17 +84,12 @@
 {% for c in contact_list%}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
-              <td>{{c.phone_main}}</td>
-      <td>{{c.phone_secondary}}</td>
         <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
-      <td>{{ c.age }}</td>
-      <td>{{ c.sex }}</td>
-      <td>{{ c.lead_quality }}</td>
-      <td>{{ c.source }}</td>
-      <td>{% for p in  c.source.potential_profiles.all %} {{p}} {%endfor%}</td>
-      <td>{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
-      <td>{{ c.created_at }}</td>
-      <td>{{ c.agent.user.name }}</td>
+        <td>{{ c.agent.user.name }}</td>
+        <td>{{ c.created_at|date:"d.m.y" }}</td>
+        <td>{{ c.source }}</td>
+        <td>{% for p in  c.source.potential_profiles.all %} {{p}} {%endfor%}</td>
+        <td>{{ c.lead_quality }}</td>
       <td><input type="checkbox" id="{{ c.pk }}"></td>
     </tr>
 {% endfor %}
@@ -108,10 +98,8 @@
   <script>
  function checkAll(c) {
      var checkboxes = document.querySelectorAll("table tbody input[type=checkbox]");
-
      for (var i = 0; i < checkboxes.length; i++) {
              checkboxes[i].checked = c;
-
      }
  }
   </script>

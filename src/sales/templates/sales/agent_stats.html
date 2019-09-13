@@ -2,7 +2,7 @@
 
 {% block container %}
 
-<h1>Статистика: {{agent}}</h1>
+<h1>Статистика: {{agent.name}}</h1>
 <p><b>Количество взаимодействий</b> {{interactions.count}}</p>
 <p><b>Количество продаж</b> {{orders_count}}</p>
 <form action="" method="get">
@@ -22,7 +22,6 @@
     </tr>
   </thead>
   <tbody>
-
 {% for i in interactions %}
     <tr>
       <td>{{ i.agent }} </td>
@@ -34,16 +33,18 @@
 {% endfor %}
   </tbody>
 </table>
+
 <script>
     $("#id_start_date").datetimepicker({
       timepicker:false,
       format:'Y-m-d',
       lang:'ru'
-});    $("#id_end_date").datetimepicker({
+    });
+
+    $("#id_end_date").datetimepicker({
       timepicker:false,
       format:'Y-m-d',
       lang:'ru'
-});
-
+    });
   </script>
 {% endblock %}
