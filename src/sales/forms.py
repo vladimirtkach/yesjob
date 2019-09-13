@@ -12,7 +12,6 @@ class ContactForm(forms.ModelForm):
         model = Contact
         exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date']
 
-
     def save(self, user, commit=True):
         inst = super(ContactForm, self).save(commit=False)
         if commit:
@@ -28,7 +27,7 @@ class AgentForm(forms.Form):
 
 class AgentStats(AgentForm):
     start_date=forms.DateField(label="Начало периода", widget=forms.TextInput(attrs={'autocomplete':'off'}),
-                               initial=date.today()-timedelta(days = 15))
+                               initial=date.today()-timedelta(days = 3))
     end_date=forms.DateField(label="Конец периода", widget=forms.TextInput(attrs={'autocomplete':'off'}),
                              initial=date.today()+timedelta(days = 1))
     choices = [(i.pk, i.name) for i in
@@ -41,7 +40,6 @@ class ContactSourceForm(forms.ModelForm):
         class Meta:
             model=ContactSource
             fields='__all__'
-
 
 class InteractionForm(forms.ModelForm):
     date = forms.DateTimeField(label="Дата следующего контакта",widget=forms.TextInput(attrs={'autocomplete':'off'}))
@@ -73,6 +71,3 @@ class SkillProfileForm(forms.ModelForm):
     class Meta:
         model = SkillProfile
         fields = '__all__'
-
-
-

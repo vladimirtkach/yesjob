@@ -146,11 +146,14 @@
           <span>Источники контактов</span></a>
       </li>
       {% endif %}
-
-
-
-
-
+      {% if perms.auth.agent %}
+      <!-- Nav Item - Employer -->
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'sales:create_profile' %}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Профили</span></a>
+      </li>
+      {% endif %}
 
 
 

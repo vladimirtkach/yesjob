@@ -64,6 +64,7 @@ def update_contact(r, id):
         form = ContactForm(r.POST, instance=Contact.objects.get(pk=id))
         if form.is_valid():
             form.save(r.user.profile)
+            return HttpResponseRedirect(reverse('sales:contact_details',args=[id]))
     form = ContactForm(instance=Contact.objects.get(pk=id))
     return render(r, 'sales/update_contact.html', context={'form': form})
 
@@ -203,7 +204,7 @@ def postback_handle(r):
         )
         interaction.save()
 
-@permission_required('auth.superagent')
+@permission_required('auth.agent')
 def create_profile(r):
     form = SkillProfileForm()
     profiles = SkillProfile.objects.all()
