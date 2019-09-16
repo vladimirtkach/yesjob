@@ -11,6 +11,9 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
         exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date']
+        widgets = {
+            'comment': forms.Textarea(attrs={'cols': 45, 'rows': 8}),
+        }
 
     def save(self, user, commit=True):
         inst = super(ContactForm, self).save(commit=False)

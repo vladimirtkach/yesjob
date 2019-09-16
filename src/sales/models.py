@@ -26,7 +26,7 @@ class Contact(models.Model):
     city = models.CharField(max_length=200, default='', blank=True, verbose_name="Город проживания")
     next_contact_date = models.DateTimeField(default='1980-01-01 12:12:12', verbose_name="Дата следующего контакта")
     last_contact_date = models.DateTimeField(default='1980-01-01 12:12:12')
-    comment = models.CharField(max_length=500, blank=True, verbose_name="Комментарий")
+    comment = models.CharField(max_length=1500, blank=True, verbose_name="Дополнительно")
     cv_url = models.CharField(max_length=250, blank=True, verbose_name="Ссылка на резюме")
     cv_title = models.CharField(max_length=100, blank=True, verbose_name="Заголовок резюме")
     color = models.CharField(max_length=20, blank=True, verbose_name="Цвет",

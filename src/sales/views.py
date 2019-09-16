@@ -121,17 +121,20 @@ def manage_list(r):
     if r.method == 'POST' and "file" in r.FILES:
         lines = [l.decode("utf-8") for l in r.FILES["file"].readlines()]
         source = ContactSource.objects.get(pk=r.POST['source'])
-        reader = csv.reader(lines)
+        #reader = csv.reader(lines,  d="|||")
+        reader = lines
         contacts = []
         for c in reader:
+            line = c.split(";")
             contacts.append(Contact(
-                phone_main=get_or(c,0),
-                first_name=get_or(c,1),
-                last_name=get_or(c,2),
-                cv_url=get_or(c,3),
-                cv_title=get_or(c,5),
-                email=get_or(c,4),
+                phone_main=get_or(line,0),
+                first_name=get_or(line,1),
+                last_name=get_or(line,2),
+                cv_url=get_or(line,3),
+                cv_title=get_or(line,5),
+                email=get_or(line,4),
                 source=source,
+                comment=get_or(line,6)
 
             ))
         Contact.objects.bulk_create(contacts, ignore_conflicts=True)
