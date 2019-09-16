@@ -86,7 +86,7 @@
       <th scope="row">{{forloop.counter}}</th>
         <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
         <td>{{ c.agent.user.name }}</td>
-        <td>{{ c.created_at|date:"d.m.y" }}</td>
+        <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.created_at|date:"d.m.y" }}</a></td>
         <td>{{ c.source }}</td>
         <td>{% for p in  c.source.potential_profiles.all %} {{p}} {%endfor%}</td>
         <td>{{ c.lead_quality }}</td>
