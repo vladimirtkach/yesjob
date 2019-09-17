@@ -45,28 +45,18 @@
       <th scope="col">#</th>
       <th scope="col">Тел </th>
       <th scope="col">Имя </th>
-      <th scope="col">Качество
-        <a href="{% url 'sales:contact_list'%}?order=-lead_quality">&darr;</a>
-         <a href="{% url 'sales:contact_list'%}?order=lead_quality">&uarr;</a>
-      </th>
       <th scope="col">Дополнительно</th>
       <th scope="col">Сл. Звон.
         <a href="{% url 'sales:contact_list'%}?order=-next_contact_date">&darr;</a>
       <a href="{% url 'sales:contact_list'%}?order=next_contact_date">&uarr;</a>
       </th>
-      <th scope="col">Посл. Звон.
-        <a href="{% url 'sales:contact_list'%}?order=-last_contact_date">&darr;</a>
-         <a href="{% url 'sales:contact_list'%}?order=last_contact_date">&uarr;</a>
-      </th>
       <th>
         Результат
       </th>
-      <th scope="col">Кол. прозвонов</th>
       <th scope="col">Источник Контакта
        <a href="{% url 'sales:contact_list'%}?order=-source__name">&darr;</a>
          <a href="{% url 'sales:contact_list'%}?order=source__name">&uarr;</a>
       </th>
-      <th scope="col">Источник Резюме</th>
       <th scope="col">Профиль</th>
     </tr>
   </thead>
@@ -77,15 +67,10 @@
       <th scope="row" style="background-color: {{c.color}}">{{forloop.counter}}</th>
       <td><a href="{% url 'sales:update_contact' c.id  %}">{{c.phone_main}}</a></td>
       <td><a href="{% url 'sales:update_contact' c.id  %}">{{ c.first_name}} {{ c.last_name}}</a></td>
-      <td>{{ c.lead_quality }}</td>
       <td>{{ c.comment }}</td>
-       <td>{{ c.next_contact_date}}</td>
-      <td>{{ c.last_contact_date}}</td>
+      <td>{{ c.next_contact_date}}</td>
       <td>{{ c.interaction_set.latest.result }}</td>
-      <td> {{ c.interaction_set.count }}</td>
       <td>{{ c.source}}</td>
-      <td><a href="{{ c.cv_url}}" target="_blank">{{ c.cv_title}}</a></td>
-
       <td>{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
     </tr>
 {% endfor %}
