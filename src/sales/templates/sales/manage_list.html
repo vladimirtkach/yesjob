@@ -90,7 +90,7 @@
 {% for c in contact_list%}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
-        <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
+        <td><a href="{% url 'sales:interactions' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
       <td>{{ c.in_sales }}</td>
       <td>{{ c.source }}</td>
        <td><input type="checkbox" id="{{ c.pk }}"></td>

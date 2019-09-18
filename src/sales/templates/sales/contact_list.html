@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block container %}
 
-<button type="button" class="btn btn-outline-primary" xmlns="http://www.w3.org/1999/html"><a href="{% url 'sales:create_contact' %}"> Добавить контакт </a></button>
  <form method="post" enctype="multipart/form-data">
    {% csrf_token %}
    <select name="search_type" id="">
@@ -12,7 +11,62 @@
    <input type="text" name="search">
    <input type="submit" value="Поиск">
  </form>
-{% if contact_list.has_other_pages %}
+
+  <style>
+
+.fixed_header tbody{
+  display:block;
+  overflow:auto;
+  height:600px;
+  width:100%;
+}
+.fixed_header thead tr{
+  display:block;
+}
+  </style>
+
+
+  <div class="row">
+  <div class="table-responsive">
+
+<table class="table table-striped fixed_header" >
+<thead >
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" style="width: 10%">Тел </th>
+      <th scope="col" style="width: 10%">Имя</th>
+      <th scope="col" style="width: 25%">Дополнительно</th>
+      <th style="width: 25%">
+        Результат
+      </th>
+      <th scope="col">Сл. Звон.
+        <a href="{% url 'sales:contact_list'%}?order=-next_contact_date">&darr;</a>
+        <a href="{% url 'sales:contact_list'%}?order=next_contact_date">&uarr;</a>
+      </th>
+      <th scope="col" style="width: 10%">Профиль</th>
+      <th scope="col" style="width: 10%">Источник Контакта
+       <a href="{% url 'sales:contact_list'%}?order=-source__name">&darr;</a>
+         <a href="{% url 'sales:contact_list'%}?order=source__name">&uarr;</a>
+      </th>
+    </tr>
+  </thead>
+  <tbody >
+
+{% for c in contact_list %}
+    <tr>
+      <th  scope="row" style="background-color: {{c.color}}">{{forloop.counter}}</th>
+      <td style="width: 10%"><a href="{% url 'sales:update_contact' c.id  %}">{{c.phone_main|truncatechars:15}}</a></td>
+      <td style="width: 10%"><a href="{% url 'sales:update_contact' c.id  %}">{{ c.first_name|truncatechars:10}} {{ c.last_name|truncatechars:10}}</a></td>
+      <td style="width: 25%" data-toggle="tooltip" data-placement="top" title="{{c.comment}}">{{ c.comment|truncatechars:100 }}</td>
+      <td style="width: 25%">{{ c.interaction_set.latest.result }}</td>
+      <td >{{ c.next_contact_date|date:"d.m.y"}}</td>
+      <td style="width: 10%">{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
+      <td style="width: 10%" data-toggle="tooltip" data-placement="top" title="{{c.source.description}}">{{ c.source}}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+  </table>
+    {% if contact_list.has_other_pages %}
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     {% if contact_list.has_previous %}
@@ -34,50 +88,6 @@
     {% endif %}
   </ul>
 {% endif %}
-  <table class="table table-striped" >
-<thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col" style="width: 10%">Тел </th>
-      <th scope="col" style="width: 10%">Имя</th>
-      <th scope="col" style="width: 25%">Дополнительно</th>
-      <th style="width: 25%">
-        Результат
-      </th>
-      <th scope="col">Сл. Звон.
-        <a href="{% url 'sales:contact_list'%}?order=-next_contact_date">&darr;</a>
-        <a href="{% url 'sales:contact_list'%}?order=next_contact_date">&uarr;</a>
-      </th>
-      <th scope="col" style="width: 10%">Профиль</th>
-      <th scope="col" style="width: 10%">Источник Контакта
-       <a href="{% url 'sales:contact_list'%}?order=-source__name">&darr;</a>
-         <a href="{% url 'sales:contact_list'%}?order=source__name">&uarr;</a>
-      </th>
-    </tr>
-  </thead>
-</table>
-  <div class="row" style="    height: 800px;
-    overflow-y: auto; ">
-  <div class="table-responsive">
-
-<table class="table table-striped" >
-
-  <tbody >
-
-{% for c in contact_list %}
-    <tr>
-      <th  scope="row" style="background-color: {{c.color}}">{{forloop.counter}}</th>
-      <td style="width: 10%"><a href="{% url 'sales:update_contact' c.id  %}">{{c.phone_main}}</a></td>
-      <td style="width: 10%"><a href="{% url 'sales:update_contact' c.id  %}">{{ c.first_name}} {{ c.last_name}}</a></td>
-      <td style="width: 25%" data-toggle="tooltip" data-placement="top" title="{{c.comment}}">{{ c.comment|truncatechars:100 }}</td>
-      <td style="width: 25%">{{ c.interaction_set.latest.result }}</td>
-      <td >{{ c.next_contact_date|date:"d.m.y"}}</td>
-      <td style="width: 10%">{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
-      <td style="width: 10%" data-toggle="tooltip" data-placement="top" title="{{c.source.description}}">{{ c.source}}</td>
-    </tr>
-{% endfor %}
-  </tbody>
-  </table>
     </div>
   </div>
 {% endblock %}

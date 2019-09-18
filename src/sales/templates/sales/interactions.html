@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block container %}
+{% load crispy_forms_tags %}
+
+
+
+
+
+<div class="row">
+<div class="col-md-6">
+  <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form | crispy}}
+      <div class="form-group">
+          <label for="sel1">При продаже выберите вакансию:</label>
+          <select  class="form-control" id="vac_id" name="vac_id">
+            <option value="nosale">---</option>
+            {% for p in positions %}
+            <option value="{{p.id}}">{{p.position_title}}</option>
+            {% endfor %}
+          </select>
+      </div>
+  <button type="submit" class="btn btn-primary"> Добавить</button>
+  </form>
+          <a href="{% url 'sales:update_contact' сontact.id %}">Редактировать контакт</a>
+
+</div>
+
+<div class="col-md-6">
+    <h4>Хронология</h4>
+    <ul class="timeline">
+        {% for i in interactions reversed %}
+        <li>
+            <p><b>{{i.agent.name }} {{i.interaction_date |date:"d-m-Y"}}</b></p>
+            <p>{{i.result}}</p>
+            <p>{% if i.order %}<b>Продажа:</b> {{i.order.vacancy}} {% endif %}</p>
+        </li>
+        {% endfor %}
+
+    </ul>
+</div>
+
+</div>
+
+
+
+  <script>
+    jQuery('#id_date').datetimepicker({
+      format:'Y-m-d H:i',
+      lang:'ru'
+});
+
+  </script>
+
+
+{% endblock container %}

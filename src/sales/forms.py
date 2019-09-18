@@ -10,7 +10,7 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date']
+        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date', 'color']
         widgets = {
             'comment': forms.Textarea(attrs={'cols': 45, 'rows': 8}),
         }
@@ -50,7 +50,7 @@ class InteractionForm(forms.ModelForm):
         model = Interaction
         exclude = ["agent", "interaction_date", "contact"]
         widgets = {
-            'result': forms.Textarea(attrs={'cols': 65, 'rows': 10}),
+            'result': forms.Textarea(attrs={'cols': 35, 'rows': 6}),
         }
         labels = {
             "result": "Результат",

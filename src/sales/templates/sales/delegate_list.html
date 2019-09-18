@@ -54,7 +54,7 @@
 
 
     <script>
-            var csrf_token = "";
+        var csrf_token = "";
         $("form#delegate").on("submit",function(){
             var x = $("table tbody input[type=checkbox]");
             var data = data = $.map(x,function(el) { if (el.checked==true)  { return el.id; }});
@@ -84,9 +84,9 @@
 {% for c in contact_list%}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
-        <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
+        <td><a href="{% url 'sales:interactions' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
         <td>{{ c.agent.user.name }}</td>
-        <td><a href="{% url 'sales:contact_details' c.id  %}">{{ c.created_at|date:"d.m.y" }}</a></td>
+        <td><a href="{% url 'sales:interactions' c.id  %}">{{ c.created_at|date:"d.m.y" }}</a></td>
         <td>{{ c.source }}</td>
         <td>{% for p in  c.source.potential_profiles.all %} {{p}} {%endfor%}</td>
         <td>{{ c.lead_quality }}</td>
@@ -95,12 +95,13 @@
 {% endfor %}
   </tbody>
 </table>
+
   <script>
- function checkAll(c) {
-     var checkboxes = document.querySelectorAll("table tbody input[type=checkbox]");
-     for (var i = 0; i < checkboxes.length; i++) {
-             checkboxes[i].checked = c;
-     }
+     function checkAll(c) {
+         var checkboxes = document.querySelectorAll("table tbody input[type=checkbox]");
+         for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = c;
+           }
  }
   </script>
 {% endblock %}

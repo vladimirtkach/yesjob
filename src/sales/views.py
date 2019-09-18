@@ -14,6 +14,17 @@ import csv
 
 User = get_user_model()
 
+status_colors = {
+    -2: "red",
+    -1: "orange",
+    0: "",
+    1: "yellow",
+    2: "skyblue",
+    3: "green",
+    4: "blue",
+}
+
+
 def get_or (l, idx, default=""):
   try:
     return l[idx]
@@ -55,7 +66,9 @@ def create_contact(r):
     if r.method == 'POST':
         form = ContactForm(r.POST)
         if form.is_valid():
-            form.save(r.user.profile)
+            form.instance.color = status_colors[form.instance.lead_quality]
+            instance = form.save(r.user.profile)
+            return HttpResponseRedirect(reverse('sales:interactions', args=[instance.id]))
     return render(r, 'sales/create_contact.html', context={'form': form})
 
 @permission_required('auth.agent')
@@ -63,13 +76,14 @@ def update_contact(r, id):
     if r.method == 'POST':
         form = ContactForm(r.POST, instance=Contact.objects.get(pk=id))
         if form.is_valid():
+            form.instance.color = status_colors[form.instance.lead_quality]
             form.save(r.user.profile)
-            return HttpResponseRedirect(reverse('sales:contact_details',args=[id]))
+            return HttpResponseRedirect(reverse('sales:interactions', args=[id]))
     form = ContactForm(instance=Contact.objects.get(pk=id))
     return render(r, 'sales/update_contact.html', context={'form': form})
 
 @permission_required('auth.agent')
-def contact_details(r,id):
+def interactions(r,id):
     contact = Contact.objects.get(pk=id)
     if r.method == "POST":
         form = InteractionForm(r.POST)
@@ -78,14 +92,14 @@ def contact_details(r,id):
             contact.next_contact_date = form.cleaned_data["date"]
             contact.last_contact_date = datetime.now()
             contact.save()
-            if r.POST["vac_id"] != "nosale":
+            if r.POST["vac_id"] != "nosale":#nosale is default value for no sale))
                 vac_id=r.POST["vac_id"]
                 vacancy = Vacancy.objects.get(pk=vac_id)
                 order = Order(sale_agent=r.user, provision_agent=r.user, interaction=interaction, contact=contact, vacancy=vacancy)
                 order.save()
 
     positions = Vacancy.objects.filter(status="active")
-    return render(r, 'sales/contact_details.html', context={
+    return render(r, 'sales/interactions.html', context={
         'сontact': contact,
         'positions': positions,
         'form': InteractionForm(),

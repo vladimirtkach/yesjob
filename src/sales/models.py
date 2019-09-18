@@ -22,17 +22,15 @@ class Contact(models.Model):
     profiles = models.ManyToManyField("SkillProfile", default=None, blank=True, verbose_name="Проф. профили кандидата")
     agent = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1)
     source = models.ForeignKey("ContactSource", on_delete=models.CASCADE, verbose_name="Источник контакта")
-    lead_quality = models.IntegerField(default=0, verbose_name="Качество лида")
+    lead_quality = models.IntegerField(default=0, verbose_name="Качество лида", choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"), (1, "Интересно"), (2, "Другая Вакансия"), (3, "Приоритет"), (4,"Сделка")))
     city = models.CharField(max_length=200, default='', blank=True, verbose_name="Город проживания")
     next_contact_date = models.DateTimeField(default='1980-01-01 12:12:12', verbose_name="Дата следующего контакта")
     last_contact_date = models.DateTimeField(default='1980-01-01 12:12:12')
     comment = models.CharField(max_length=1500, blank=True, verbose_name="Дополнительно")
     cv_url = models.CharField(max_length=250, blank=True, verbose_name="Ссылка на резюме")
     cv_title = models.CharField(max_length=100, blank=True, verbose_name="Заголовок резюме")
-    color = models.CharField(max_length=20, blank=True, verbose_name="Цвет",
-                             choices=(("purple","Фиолетовый"),("pink","Розовый"),("blue","Синий"),("SkyBlue","Голубой"),
-        ("green","Зеленый"),("limegreen","СветлоЗеленый"),("yellow","Желтый"),("orange","Оранжевый"),
-        ("tomato","Томат"),("red","Красный"),("brown","Коричневый")))
+    color = models.CharField(max_length=20, blank=True, verbose_name="Цвет", choices=(("blue","Синий"),("SkyBlue","Голубой"),("green","Зеленый"),("yellow","Желтый"),("orange","Оранжевый"),("red","Красный")))
+    objection = models.CharField(max_length=100, blank=True, verbose_name="Причина отказа")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
 
@@ -49,7 +47,7 @@ class Interaction(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
     result = models.CharField(max_length=500, blank=True)
     interaction_date = models.DateTimeField(auto_now=True)
-    type = models.CharField(max_length=200, choices=(("звонок", "Звонок"),("email", "Email"),("sms", "Sms"),
+    type = models.CharField(max_length=200, default="звонок", choices=(("звонок", "Звонок"),("email", "Email"),("sms", "Sms"),
                                                      ("messenger", "Messenger"), ("автопрозвон", "Автопрозвон")))
     class Meta:
         get_latest_by='id'
