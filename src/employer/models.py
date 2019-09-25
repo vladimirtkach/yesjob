@@ -31,7 +31,7 @@ class Vacancy(models.Model):
     career_opportunities = models.CharField(max_length=20, blank=True, verbose_name="Возможности карьерного роста")
     status = models.CharField(max_length=200, blank=True, default="active",  verbose_name="Статус", choices=(("active","Активная"),("hold","Приостановленная"),("archive","Архивная")))
     documents = models.CharField(max_length=200, blank=True, verbose_name="Документы", choices=(("Виза 3 мес","Виза 3 мес"),("Виза 1 год","Виза 1 год"),("Рабочая карта","Рабочая карта"),
-                                                                      ("Виза 3 месяца + Карта","Виза 3 месяца + Карта"),("Виза 1 год + Карта","Виза 1 год + Карта")))
+                                                                      ("Виза 3 месяца + Карта","Виза 3 месяца + Карта"),("Виза 1 год + Карта","Виза 1 год + Карта"), ("Биометрия + ВНЖ", "Биометрия + ВНЖ")))
     documents_add = models.CharField(max_length=200, blank=True, verbose_name="Дополнительно - Документы")
     price = models.IntegerField(verbose_name="Стоимость вакансии")
     price_add = models.CharField(verbose_name="Дополнительно - Стоимость вакансии", blank=True, max_length=200)

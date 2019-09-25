@@ -1,7 +1,5 @@
-from datetime import datetime
 from django.db import models
 from django.utils import timezone
-from django.utils.datetime_safe import date
 from employer.models import Vacancy
 from profiles.models import Profile
 from django.conf import settings
