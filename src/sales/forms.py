@@ -24,19 +24,27 @@ class ContactForm(forms.ModelForm):
         return inst
 
 class AgentForm(forms.Form):
-    choices = [ (i.pk, i.name) for i in (User.objects.filter(groups__name='Agent') | User.objects.filter(groups__name='SuperAgent'))]
-    choices.append((1, "Admin"))
-    agent = forms.ChoiceField(choices=choices)
+
+    agent = forms.ChoiceField(choices=[])
+    def __init__(self, *args, **kwargs):
+        super(AgentForm, self).__init__(*args, **kwargs)
+        choices = [(i.pk, i.name) for i in
+                   (User.objects.filter(groups__name='Agent') | User.objects.filter(groups__name='SuperAgent'))]
+        choices.append((1, "Admin"))
+        self.fields['agent'].choices = choices
 
 class AgentStats(AgentForm):
     start_date=forms.DateField(label="Начало периода", widget=forms.TextInput(attrs={'autocomplete':'off'}),
                                initial=date.today()-timedelta(days = 3))
     end_date=forms.DateField(label="Конец периода", widget=forms.TextInput(attrs={'autocomplete':'off'}),
                              initial=date.today()+timedelta(days = 1))
-    choices = [(i.pk, i.name) for i in
-               (User.objects.filter(groups__name='Agent') | User.objects.filter(groups__name='SuperAgent'))]
-    choices.insert(0, ("all","Все"))
-    agent = forms.ChoiceField(choices=choices)
+    agent = forms.ChoiceField(choices=[])
+    def __init__(self, *args, **kwargs):
+        super(AgentForm, self).__init__(*args, **kwargs)
+        choices = [(i.pk, i.name) for i in
+                   (User.objects.filter(groups__name='Agent') | User.objects.filter(groups__name='SuperAgent'))]
+        choices.insert(0, ("all", "Все"))
+        self.fields['agent'].choices = choices
 
 
 class ContactSourceForm(forms.ModelForm):
