@@ -1,7 +1,7 @@
 from authtools.models import User
 from django import forms
 
-from src.sales.services import normalize_phone
+from  .services import normalize_phone
 from .models import *
 from datetime import date
 from datetime import timedelta
