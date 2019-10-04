@@ -1,6 +1,7 @@
 from authtools.models import User
 from django import forms
 
+from src.sales.services import normalize_phone
 from .models import *
 from datetime import date
 from datetime import timedelta
@@ -22,6 +23,13 @@ class ContactForm(forms.ModelForm):
             inst.save()
             self.save_m2m()
         return inst
+
+    def clean_phone_main(self):
+        phone = self.cleaned_data['phone_main']
+        phone = normalize_phone(phone)
+        if phone is None:
+            raise forms.ValidationError("Номер %s имеет не правильный формат, введите в формате 380ХХ ХХХ ХХ ХХ" %  self.cleaned_data['phone_main'])
+        return phone
 
 class AgentForm(forms.Form):
 

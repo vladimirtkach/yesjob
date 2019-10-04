@@ -74,13 +74,13 @@ def create_contact(r):
 
 @permission_required('auth.agent')
 def update_contact(r, id):
+    form = ContactForm(instance=Contact.objects.get(pk=id))
     if r.method == 'POST':
         form = ContactForm(r.POST, instance=Contact.objects.get(pk=id))
         if form.is_valid():
             form.instance.color = status_colors[form.instance.lead_quality]
             form.save(r.user.profile)
             return HttpResponseRedirect(reverse('sales:interactions', args=[id]))
-    form = ContactForm(instance=Contact.objects.get(pk=id))
     return render(r, 'sales/update_contact.html', context={'form': form})
 
 @permission_required('auth.agent')
