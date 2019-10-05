@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {% block container %}
+<form method="post" enctype="multipart/form-data">
+   {% csrf_token %}
 
+   <input type="text" name="search">
+   <input type="submit" value="Поиск по телефону">
+ </form>
 
 
 {% if contact_list.has_other_pages %}

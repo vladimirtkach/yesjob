@@ -109,17 +109,19 @@ def interactions(r,id):
 
 @permission_required('auth.superagent')
 def delegate_list(r):
-    if r.method == 'POST':
+    if r.method == 'POST' and "cids" in r.POST:
         c_ids = r.POST["cids"].split(",")
         agent_id = r.POST["agent"]
         if c_ids[0] is not '':
             Contact.objects.filter(id__in=c_ids).update(agent=Profile.objects.get(pk=agent_id))
 
     contacts = None
-    if "agent" in r.GET:
-        contacts = Contact.objects.filter(in_sales=True, agent_id=r.GET["agent"])
+    if r.method == 'POST' and "search" in r.POST:
+        contacts = Contact.objects.filter(phone_main__contains=r.POST["search"])
+    elif "agent" in r.GET:
+        contacts = Contact.objects.filter(in_sales=True, agent_id=r.GET["agent"]).order_by("-id")
     else:
-        contacts = Contact.objects.filter(in_sales=True)
+        contacts = Contact.objects.filter(in_sales=True).order_by("-id")
     page = r.GET.get('page', 1)
     num = r.GET.get('num', 200)
     paginator = Paginator(contacts, num)
