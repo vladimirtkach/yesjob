@@ -146,14 +146,16 @@ def manage_list(r):
                 first_name=get_or(line,1),
                 last_name=get_or(line,2),
                 cv_url=get_or(line,3),
-                cv_title=get_or(line,5),
-                email=get_or(line,4),
+                cv_title=get_or(line,4),
+                email=get_or(line,5),
                 source=source,
-                comment=get_or(line,6)
+                comment=get_or(line,6),
+                age=get_or(line,7),
+                city=get_or(line,8),
 
             ))
         Contact.objects.bulk_create(contacts, ignore_conflicts=True)
-        
+
         # return render(r, 'sales/manage_list.html')
     elif r.method == 'POST' and "cids" in r.POST:
         c_ids = r.POST["cids"].split(",")
