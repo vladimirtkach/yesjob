@@ -142,7 +142,7 @@ def manage_list(r):
         for c in reader:
             line = c.split(";")
             contacts.append(Contact(
-                phone_main=get_or(line,0),
+                phone_main=normalize_phone(get_or(line,0)),
                 first_name=get_or(line,1),
                 last_name=get_or(line,2),
                 cv_url=get_or(line,3),
