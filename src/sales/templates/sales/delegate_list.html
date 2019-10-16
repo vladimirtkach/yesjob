@@ -79,7 +79,7 @@
         <th scope="col">Агент</th>
         <th scope="col">Добавлен</th>
         <th scope="col">Источник</th>
-        <th scope="col">Пот. профиль</th>
+        <th scope="col">Резюме</th>
         <th scope="col">Статус</th>
         <th scope="col"> <input type="checkbox"  onchange="checkAll(this.checked)">Выбрать</input></th>
     </tr>
@@ -92,8 +92,8 @@
         <td><a href="{% url 'sales:interactions' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
         <td>{{ c.agent.user.name }}</td>
         <td><a href="{% url 'sales:interactions' c.id  %}">{{ c.created_at|date:"d.m.y" }}</a></td>
-        <td>{{ c.source }}</td>
-        <td>{% for p in  c.source.potential_profiles.all %} {{p}} {%endfor%}</td>
+        <td>{{c.source}}</td>
+        <td><a href="{{c.cv_url}}">{{c.cv_title}}</a></td>
         <td>{{ c.lead_quality }}</td>
       <td><input type="checkbox" id="{{ c.pk }}"></td>
     </tr>
