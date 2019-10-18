@@ -52,7 +52,7 @@ def contact_list(r):
 
     page = r.GET.get('page', 1)
     num = r.GET.get('num', 50)
-    contacts = ContactFilter(r.GET, queryset=Contact.objects.all())
+    contacts = ContactFilter(r.GET, queryset=Contact.objects.filter(agent=r.user.profile, in_sales=True))
     paginator = Paginator(contacts.qs, num)
     try:
         contacts_paginated = paginator.page(page)
