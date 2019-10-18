@@ -1,16 +1,42 @@
 {% extends 'base.html' %}
 {% block container %}
+{% load crispy_forms_tags %}
+{% load tags %}
 
- <form method="post" enctype="multipart/form-data">
-   {% csrf_token %}
-   <select name="search_type" id="">
-     <option value="tel1">Tel1</option>
-     <option value="tel2">Tel2</option>
-     <option value="last_name">Фамилия</option>
-   </select>
-   <input type="text" name="search">
-   <input type="submit" value="Поиск">
- </form>
+
+
+<form action="" method="get" class="search-form" style="display:none">
+  <div class="row"><div class="col-md-4">
+  {% for field in filter.form %}
+
+    {%if forloop.counter|divisibleby:"5" %}
+      </div><div class="col-md-4">
+    {%endif%}
+  <div class="form-group">
+    <label for="">{{field.label}}</label>
+   {{field}}
+  </div>
+{%endfor%}
+</div></div>
+  <button type="submit">Поиск</button>
+
+</form>
+<button onclick="$('.search-form').toggle()">Фильтр</button>
+<script>
+
+
+   $("#id_start_date").datetimepicker({
+      timepicker:false,
+      format:'m/d/Y',
+      lang:'ru'
+    });
+
+    $("#id_end_date").datetimepicker({
+      timepicker:false,
+      format:'m/d/Y',
+      lang:'ru'
+    });
+    </script>
 
 <style>
 .fixed_header tbody
@@ -44,8 +70,8 @@
         <a href="{% url 'sales:contact_list'%}?order=-next_contact_date">&darr;</a>
         <a href="{% url 'sales:contact_list'%}?order=next_contact_date">&uarr;</a>
       </th>
-      <th scope="col" style="width: 10%">Профиль</th>
-      <th scope="col" style="width: 10%">Источник Контакта
+      <th scope="col" style="width: 10%">Професия</th>
+      <th scope="col" style="width: 10%">Ист
        <a href="{% url 'sales:contact_list'%}?order=-source__name">&darr;</a>
          <a href="{% url 'sales:contact_list'%}?order=source__name">&uarr;</a>
       </th>
@@ -57,12 +83,13 @@
     <tr>
       <th  scope="row" style="background-color: {{c.color}}">{{forloop.counter}}</th>
       <td style="width: 10%"><a href="{% url 'sales:update_contact' c.id  %}">{{c.phone_main|truncatechars:15}}</a></td>
-      <td style="width: 10%"><a href="{% url 'sales:update_contact' c.id  %}">{{ c.first_name|truncatechars:10}} {{ c.last_name|truncatechars:10}}</a></td>
+      <td style="width: 10%" data-toggle="tooltip" data-placement="top" title="{{ c.first_name}} {{ c.last_name}}"><a href="{% url 'sales:update_contact' c.id  %}">
+        {{ c.first_name|truncatechars:10}} {{ c.last_name|truncatechars:10}}</a></td>
       <td style="width: 25%" data-toggle="tooltip" data-placement="top" title="{{c.comment}}">{{ c.comment|truncatechars:100 }}</td>
       <td style="width: 25%">{{ c.interaction_set.latest.result }}</td>
       <td >{{ c.next_contact_date|date:"d.m.y"}}</td>
       <td style="width: 10%">{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
-      <td style="width: 10%" data-toggle="tooltip" data-placement="top" title="{{c.source.description}}">{{ c.source}}</td>
+      <td style="width: 10%" data-toggle="tooltip" data-placement="top" title="{{c.source.description}}">{{ c.source|truncatechars:10}}</td>
     </tr>
 {% endfor %}
   </tbody>
@@ -71,7 +98,7 @@
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     {% if contact_list.has_previous %}
-    <li class="page-item"><a class="page-link" href="?page={{ contact_list.previous_page_number }}&order={{order}}">Пред.</a></li>
+    <li class="page-item"><a class="page-link" href="?{% param_replace page=contact_list.previous_page_number %}">Пред.</a></li>
     {% else %}
     <li class="page-item disabled"><a class="page-link" href="#">Пред.</a></li>
     {% endif %}
@@ -79,11 +106,11 @@
       {% if contact_list.number == i %}
      <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
       {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{ i }}&order={{order}}">{{ i }}</a></li>
+        <li class="page-item"><a class="page-link" href="?{% param_replace page=i %}">{{ i }}</a></li>
       {% endif %}
     {% endfor %}
     {% if contact_list.has_next %}
-      <li class="page-item"><a class="page-link"  href="?page={{ contact_list.next_page_number }}&order={{order}}">След.</a></li>
+      <li class="page-item"><a class="page-link"  href="?{% param_replace page=contact_list.next_page_number %}">След.</a></li>
     {% else %}
     <li class="page-item disabled"><a class="page-link" href="#">След.</a></li>
     {% endif %}

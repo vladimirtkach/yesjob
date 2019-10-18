@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import ListView
 
+from .filters import ContactFilter
 from .models import *
 from .forms import *
 import csv
@@ -36,21 +37,23 @@ def get_or (l, idx, default=""):
 
 @permission_required('auth.agent')
 def contact_list(r):
-    contacts=None
-    order = r.GET.get("order", "next_contact_date")
-    if r.method=='POST' and "search" in r.POST:
-        if r.POST["search_type"] == "tel1":
-            contacts = Contact.objects.filter(agent=r.user.profile, in_sales=True, phone_main__contains=r.POST["search"]).order_by(order)
-        if r.POST["search_type"] == "tel2":
-            contacts = Contact.objects.filter(agent=r.user.profile, in_sales=True, phone_secondary__contains=r.POST["search"]).order_by(order)
-        if r.POST["search_type"] == "last_name":
-            contacts = Contact.objects.filter(agent=r.user.profile, in_sales=True, last_name__contains=r.POST["search"]).order_by(order)
-    else:
-        contacts = Contact.objects.filter(agent=r.user.profile, in_sales=True).order_by(order)
+    # contacts=None
+    # order = r.GET.get("order", "next_contact_date")
+    # if r.method=='POST' and "search" in r.POST:
+    #     if r.POST["search_type"] == "tel1":
+    #         contacts = Contact.objects.filter(agent=r.user.profile, in_sales=True, phone_main__contains=r.POST["search"]).order_by(order)
+    #     if r.POST["search_type"] == "tel2":
+    #         contacts = Contact.objects.filter(agent=r.user.profile, in_sales=True, phone_secondary__contains=r.POST["search"]).order_by(order)
+    #     if r.POST["search_type"] == "last_name":
+    #         contacts = Contact.objects.filter(agent=r.user.profile, in_sales=True, last_name__contains=r.POST["search"]).order_by(order)
+    # else:
+    #     contacts = Contact.objects.filter(agent=r.user.profile, in_sales=True).order_by(order)
+
+
     page = r.GET.get('page', 1)
     num = r.GET.get('num', 50)
-
-    paginator = Paginator(contacts, num)
+    contacts = ContactFilter(r.GET, queryset=Contact.objects.all())
+    paginator = Paginator(contacts.qs, num)
     try:
         contacts_paginated = paginator.page(page)
     except PageNotAnInteger:
@@ -58,8 +61,8 @@ def contact_list(r):
     except EmptyPage:
         contacts_paginated = paginator.page(paginator.num_pages)
     return render(r, 'sales/contact_list.html', context=
-    {'contact_list': contacts_paginated,
-     'order': order})
+    {'contact_list': contacts_paginated, 'filter': contacts, 'request':r,
+     'order': "next_contact_date"})
 
 @permission_required('auth.agent')
 def create_contact(r):
@@ -108,22 +111,22 @@ def interactions(r,id):
     })
 
 @permission_required('auth.superagent')
-def delegate_list(r):
-    if r.method == 'POST' and "cids" in r.POST:
-        c_ids = r.POST["cids"].split(",")
-        agent_id = r.POST["agent"]
+def delegate_list(request):
+    if request.method == 'POST' and "cids" in request.POST:
+        c_ids = request.POST["cids"].split(",")
+        agent_id = request.POST["agent"]
         if c_ids[0] is not '':
             Contact.objects.filter(id__in=c_ids).update(agent=Profile.objects.get(pk=agent_id))
 
     contacts = None
-    if r.method == 'POST' and "search" in r.POST:
-        contacts = Contact.objects.filter(phone_main__contains=r.POST["search"])
-    elif "agent" in r.GET:
-        contacts = Contact.objects.filter(in_sales=True, agent_id=r.GET["agent"]).order_by("-id")
+    if request.method == 'POST' and "search" in request.POST:
+        contacts = Contact.objects.filter(phone_main__contains=request.POST["search"])
+    elif "agent" in request.GET:
+        contacts = Contact.objects.filter(in_sales=True, agent_id=request.GET["agent"]).order_by("-id")
     else:
         contacts = Contact.objects.filter(in_sales=True).order_by("-id")
-    page = r.GET.get('page', 1)
-    num = r.GET.get('num', 200)
+    page = request.GET.get('page', 1)
+    num = request.GET.get('num', 200)
     paginator = Paginator(contacts, num)
     try:
         contacts_paginated = paginator.page(page)
@@ -131,7 +134,7 @@ def delegate_list(r):
         contacts_paginated = paginator.page(1)
     except EmptyPage:
         contacts_paginated = paginator.page(paginator.num_pages)
-    return render(r, 'sales/delegate_list.html', context={'contact_list': contacts_paginated, 'agent_form':AgentForm()})
+    return render(request, 'sales/delegate_list.html', context={'contact_list': contacts_paginated, 'agent_form':AgentForm(), 'request':request})
 
 @permission_required('auth.admin')
 def manage_list(r):
