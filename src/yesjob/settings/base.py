@@ -102,8 +102,10 @@ WSGI_APPLICATION = "yesjob.wsgi.application"
 DATABASES = {
     # Raises ImproperlyConfigured exception if DATABASE_URL not in
     # os.environ
-    "default": env.db()
+    "default": env.db(),
 }
+
+DATABASES['default']['OPTIONS'] = {"init_command": "SET foreign_key_checks = 0;"}
 
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/

@@ -11,7 +11,7 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date', 'color']
+        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date', 'color', 'cv_url', 'cv_title']
         widgets = {
             'comment': forms.Textarea(attrs={'cols': 45, 'rows': 8}),
         }

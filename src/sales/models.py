@@ -9,7 +9,6 @@ class Contact(models.Model):
     last_name = models.CharField(max_length=500, blank=True, verbose_name="Фамилия")
     phone_main = models.CharField(max_length=50, unique=True, verbose_name="Телефон1")
     phone2 = models.CharField(max_length=50,  blank=True, verbose_name="Телефон2")
-    phone3 = models.CharField(max_length=50,  blank=True, verbose_name="Телефон3")
     viber = models.CharField(max_length=50,  blank=True, verbose_name="Вайбер")
     telegram = models.CharField(max_length=50,  blank=True, verbose_name="Телеграм")
     email = models.CharField(max_length=50, blank=True, verbose_name="Имейл")
@@ -17,7 +16,7 @@ class Contact(models.Model):
     sex = models.CharField(max_length=1, blank=True, choices=(("м", "Мужской"),("ж", "Женский")), verbose_name="Пол")
     is_client = models.BooleanField(default=False)
     in_sales = models.BooleanField(default=True)
-    profiles = models.ManyToManyField("SkillProfile", default=None, blank=True, verbose_name="Проф. профили кандидата")
+    profiles = models.ManyToManyField("SkillProfile", default=None, blank=True, verbose_name="Професии кандидата")
     agent = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1)
     source = models.ForeignKey("ContactSource", on_delete=models.CASCADE, verbose_name="Источник контакта")
     lead_quality = models.IntegerField(default=0, verbose_name="Статус", choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"), (1, "Интересно"), (2, "Другая Вакансия"), (3, "Приоритет"), (4,"Сделка")))
@@ -28,9 +27,11 @@ class Contact(models.Model):
     cv_url = models.CharField(max_length=250, blank=True, verbose_name="Ссылка на резюме")
     cv_title = models.CharField(max_length=100, blank=True, verbose_name="Заголовок резюме")
     color = models.CharField(max_length=20, blank=True, verbose_name="Цвет", choices=(("blue","Синий"),("SkyBlue","Голубой"),("green","Зеленый"),("yellow","Желтый"),("orange","Оранжевый"),("red","Красный")))
-    objection = models.CharField(max_length=100, blank=True, verbose_name="Причина отказа")
+    objection = models.ForeignKey("Objection", on_delete=models.CASCADE, default=None, verbose_name="Причина отказа")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
+    proposed_vacancy = models.ManyToManyField(Vacancy, default=None, blank=True, verbose_name="Предложенные вакансии")
+    is_pair = models.BooleanField(default=False, verbose_name="Семейная пара", null=True)
 
     def __str__(self):
         return self.first_name
@@ -40,6 +41,13 @@ class SkillProfile(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Objection(models.Model):
+    objection = models.CharField(max_length=100, blank=True, verbose_name="Причина отказа")
+    strategy = models.CharField(max_length=1500, blank=True, verbose_name="Как работать с отказом")
+    def __str__(self):
+        return self.objection
 
 class Interaction(models.Model):
     agent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

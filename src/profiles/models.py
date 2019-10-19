@@ -27,4 +27,4 @@ class Profile(BaseProfile):
 
 
     def __str__(self):
-        return "{}'s profile".format(self.user)
+        return self.user.name

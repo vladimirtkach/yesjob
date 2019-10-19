@@ -2,20 +2,45 @@
 {% load tags %}
 
 {% block container %}
-<form method="post" enctype="multipart/form-data">
-   {% csrf_token %}
+<form action="" method="get" class="search-form" style="display:none">
+  <div class="row"><div class="col-md-4">
+  {% for field in filter.form %}
 
-   <input type="text" name="search">
-   <input type="submit" value="Поиск по телефону">
- </form>
+    {%if forloop.counter|divisibleby:"8" %}
+      </div><div class="col-md-4">
+    {%endif%}
+  <div class="form-group">
+    <label for="">{{field.label}}</label>
+   {{field}}
+  </div>
+{%endfor%}
+</div></div>
+  <button type="submit">Поиск</button>
+
+</form>
+<p><button onclick="$('.search-form').toggle()">Фильтр</button> Всего: <b>{{filter.qs.count}}</b></p>
+<script>
+
+
+   $("#id_start_date").datetimepicker({
+      timepicker:false,
+      format:'m/d/Y',
+      lang:'ru'
+    });
+
+    $("#id_end_date").datetimepicker({
+      timepicker:false,
+      format:'m/d/Y',
+      lang:'ru'
+    });
+ </script>
 
 
 {% if contact_list.has_other_pages %}
 <nav aria-label="Page navigation example">
   <ul class="pagination">
     {% if contact_list.has_previous %}
-
-    <li class="page-item"><a class="page-link" href="?page={{ contact_list.previous_page_number }}">Пред.</a></li>
+    <li class="page-item"><a class="page-link" href="?{% param_replace page=contact_list.previous_page_number %}">Пред.</a></li>
     {% else %}
     <li class="page-item disabled"><a class="page-link" href="#">Пред.</a></li>
     {% endif %}
@@ -23,17 +48,15 @@
       {% if contact_list.number == i %}
      <li class="page-item active"><a class="page-link" href="#">{{i}}</a></li>
       {% else %}
-        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        <li class="page-item"><a class="page-link" href="?{% param_replace page=i %}">{{ i }}</a></li>
       {% endif %}
     {% endfor %}
-     {% if contact_list.has_next %}
-      <li class="page-item"><a class="page-link"  href="?page={{ contact_list.next_page_number }}">След.</a></li>
+    {% if contact_list.has_next %}
+      <li class="page-item"><a class="page-link"  href="?{% param_replace page=contact_list.next_page_number %}">След.</a></li>
     {% else %}
-
     <li class="page-item disabled"><a class="page-link" href="#">След.</a></li>
     {% endif %}
-
-       </ul>
+  </ul>
 </nav>
 {% endif %}
 <div class="row">
@@ -46,18 +69,7 @@
 
         </form>
     </div>
-    <div class="col-md-6">
-
-        <form action="" method="get">
-            {% csrf_token %}
-            <input type="submit"  value="Фильтровать" >
-            {{agent_form}}
-
-        </form>
-
-    </div>
 </div>
-
 
     <script>
         var csrf_token = "";
