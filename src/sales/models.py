@@ -31,7 +31,7 @@ class Contact(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
     proposed_vacancy = models.ManyToManyField(Vacancy, default=None, blank=True, verbose_name="Предложенные вакансии")
-    is_pair = models.BooleanField(default=False, verbose_name="Семейная пара", null=True)
+    is_pair = models.BooleanField(default=False, verbose_name="Пара", null=True)
 
     def __str__(self):
         return self.first_name

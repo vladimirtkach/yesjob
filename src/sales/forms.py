@@ -11,9 +11,9 @@ class ContactForm(forms.ModelForm):
 
     class Meta:
         model = Contact
-        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date', 'color', 'cv_url', 'cv_title']
+        exclude = ['agent', 'in_sales', 'is_client', 'created_at', 'updated_at', 'last_contact_date', 'next_contact_date', 'color', 'cv_url', 'cv_title']
         widgets = {
-            'comment': forms.Textarea(attrs={'cols': 45, 'rows': 8}),
+            'comment': forms.Textarea(attrs={'cols': 45, 'rows': 6}),
         }
 
     def save(self, user, commit=True):
@@ -61,7 +61,7 @@ class ContactSourceForm(forms.ModelForm):
             fields='__all__'
 
 class InteractionForm(forms.ModelForm):
-    date = forms.DateTimeField(label="Дата следующего контакта",widget=forms.TextInput(attrs={'autocomplete':'off'}))
+    date = forms.DateTimeField(label="Дата сл. контакта",widget=forms.TextInput(attrs={'autocomplete':'off'}))
     class Meta:
         model = Interaction
         exclude = ["agent", "interaction_date", "contact"]

@@ -1,0 +1,83 @@
+{% load crispy_forms_tags %}
+ {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+<form method="post" id="update_contact" enctype="multipart/form-data">
+    {% csrf_token %}
+   <div class="form-row">
+      <div class="form-group col-md-2 mb-0">
+        {{ form.first_name|as_crispy_field }}
+      </div>
+       <div class="form-group col-md-2 mb-0">
+        {{ form.last_name|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-2 mb-0">
+        {{ form.phone_main|as_crispy_field }}
+      </div>
+       <div class="form-group col-md-2 mb-0">
+        {{ form.phone2|as_crispy_field }}
+      </div>
+       <div class="form-group col-md-2 mb-0">
+        {{ form.viber|as_crispy_field }}
+      </div>
+       <div class="form-group col-md-2 mb-0">
+        {{ form.telegram|as_crispy_field }}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-1 mb-0">
+        {{ form.age|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-1 mb-0">
+        {{ form.sex|as_crispy_field }}
+      </div>
+
+      <div class="form-group col-md-1 mb-0">
+        {{ form.is_pair|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-2 mb-0">
+        {{ form.email|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-2 mb-0">
+        {{ form.city|as_crispy_field }}
+      </div>
+        <div class="form-group col-md-2 mb-0">
+        {{ form.lead_quality|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-3 mb-0">
+        {{ form.objection|as_crispy_field }}
+      </div>
+    </div>
+    <div class="form-row">
+
+      <div class="form-group col-md-3 mb-0">
+        {{ form.profiles|as_crispy_field }}
+          {{ form.source|as_crispy_field }}
+      </div>
+      <div class="form-group col-md-5 mb-0">
+        {{ form.proposed_vacancy|as_crispy_field }}
+      </div>
+        <div class="form-group col-md-4 mb-0">
+        {{ form.comment|as_crispy_field }}
+      </div>
+    </div>
+<div class="controls">
+    <button type="submit" class="btn btn-primary"> Обновить Контакт</button>
+</div>
+{% if success %}
+    <div class="alert alert-success" role="alert">
+  Контакт сохранен!
+</div>
+    {% endif %}
+</form>

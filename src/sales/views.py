@@ -87,6 +87,54 @@ def update_contact(r, id):
     return render(r, 'sales/update_contact.html', context={'form': form})
 
 @permission_required('auth.agent')
+def update_contact1(r, id):
+    form = ContactForm(instance=Contact.objects.get(pk=id))
+    if r.method == 'POST':
+        form = ContactForm(r.POST, instance=Contact.objects.get(pk=id))
+        if form.is_valid():
+            form.instance.color = status_colors[form.instance.lead_quality]
+            form.save(r.user.profile)
+            return render(r, 'sales/form.html', {'form': form, 'success':'success'}, status=200)
+        else:
+            return render(r, 'sales/form.html', {'form': form}, status=200)
+    positions = Vacancy.objects.filter(status="active")
+    return render(r, 'sales/update_contact1.html',
+                  context={'form': form,
+                           'positions': positions,
+                           'int_form': InteractionForm(),
+                           'interactions': Interaction.objects.filter(contact_id=id),
+                           })
+
+
+
+@permission_required('auth.agent')
+def interactions1(r,id):
+    contact = Contact.objects.get(pk=id)
+    if r.method == "POST":
+        form = InteractionForm(r.POST)
+        if form.is_valid():
+            interaction = form.save(agent=r.user, contact=contact)
+            contact.next_contact_date = form.cleaned_data["date"]
+            contact.last_contact_date = datetime.now()
+            contact.save()
+            if r.POST["vac_id"] != "nosale":#nosale is default value for no sale))
+                vac_id=r.POST["vac_id"]
+                vacancy = Vacancy.objects.get(pk=vac_id)
+                order = Order(sale_agent=r.user, provision_agent=r.user, interaction=interaction, contact=contact, vacancy=vacancy)
+                order.save()
+
+
+        positions = Vacancy.objects.filter(status="active")
+        return render(r, 'sales/int_form.html', context={
+            'positions': positions,
+            'int_form': form,
+            'interactions': Interaction.objects.filter(contact_id=id),
+        })
+
+
+
+
+@permission_required('auth.agent')
 def interactions(r,id):
     contact = Contact.objects.get(pk=id)
     if r.method == "POST":
@@ -95,7 +143,6 @@ def interactions(r,id):
             interaction = form.save(agent=r.user, contact=contact)
             contact.next_contact_date = form.cleaned_data["date"]
             contact.last_contact_date = datetime.now()
-            contact.proposed_vacancy = form.cleaned_data["proposed_vacancy"]
             contact.save()
             if r.POST["vac_id"] != "nosale":#nosale is default value for no sale))
                 vac_id=r.POST["vac_id"]

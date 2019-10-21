@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block container %}
+
+<div id="contact_wrapper">
+{% include 'sales/form.html' %}
+</div>
+
+
+<script>
+    function handle_form(e) {
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+
+    var form = $(this);
+    var url = form.attr('action');
+
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: form.serialize(), // serializes the form's elements.
+           success: function(data)
+           {
+               $("div#contact_wrapper").html(data)
+               $("#update_contact").submit(handle_form);
+           }
+         });
+}
+    $("#update_contact").submit(handle_form);
+</script>
+
+
+
+
+
+<div class="row" id="int_wrapper">
+    {% include 'sales/int_form.html' %}
+</div>
+
+<script>
+    function handle_int_form(e) {
+
+    e.preventDefault();
+
+    var form = $(this);
+    var url = "/sales/interactions1/{{form.instance.id}}";
+
+    $.ajax({
+           type: "POST",
+           url: url,
+           data: form.serialize(),
+           success: function(data)
+           {
+               $("div#int_wrapper").html(data)
+               $("#add_interaction").submit(handle_int_form);
+           }
+         });
+}
+    $("#add_interaction").submit(handle_int_form);
+</script>
+
+
+
+
+{% endblock container %}
