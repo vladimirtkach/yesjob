@@ -88,8 +88,9 @@
       <td style="width: 25%" data-toggle="tooltip" data-placement="top" title="{{c.comment}}">{{ c.comment|truncatechars:100 }}</td>
       <td style="width: 25%">{{ c.interaction_set.latest.result }}</td>
       <td >{{ c.next_contact_date|date:"d.m.y"}}</td>
+      <td ><a href="{{c.cv_url}}">{{c.cv_title}}</a></td>
       <td style="width: 10%">{% for p in  c.profiles.all %} {{p}} {%endfor%}</td>
-      <td style="width: 10%" data-toggle="tooltip" data-placement="top" title="{{c.source.description}}">{{ c.source|truncatechars:10}}</td>
+      <td style="width: 10%" data-toggle="tooltip" data-placement="top" title="{{c.source.description}} {{ c.source }}">{{ c.source|truncatechars:3}}</td>
     </tr>
 {% endfor %}
   </tbody>
