@@ -27,7 +27,7 @@ class Contact(models.Model):
     cv_url = models.CharField(max_length=250, blank=True, verbose_name="Ссылка на резюме")
     cv_title = models.CharField(max_length=100, blank=True, verbose_name="Заголовок резюме")
     color = models.CharField(max_length=20, blank=True, verbose_name="Цвет", choices=(("blue","Синий"),("SkyBlue","Голубой"),("green","Зеленый"),("yellow","Желтый"),("orange","Оранжевый"),("red","Красный")))
-    objection = models.ForeignKey("Objection", on_delete=models.CASCADE, blank=True, default=None, verbose_name="Причина отказа")
+    objection = models.ForeignKey("Objection", on_delete=models.CASCADE, default=None, verbose_name="Причина отказа")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
     proposed_vacancy = models.ManyToManyField(Vacancy, default=None, blank=True, verbose_name="Предложенные вакансии")
