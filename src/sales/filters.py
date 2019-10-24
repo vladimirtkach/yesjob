@@ -21,8 +21,9 @@ class ContactFilter(django_filters.FilterSet):
     source = django_filters.ChoiceFilter(label="Источник", field_name="source", choices=[(c.id, c.name) for c in ContactSource.objects.all()])
     interaction__result = django_filters.CharFilter(label="Взаимодействие", lookup_expr="icontains")
     cv_title = django_filters.CharFilter(label="Резюме", field_name="cv_title", lookup_expr="icontains")
-    profiles__name = django_filters.MultipleChoiceFilter(label="Професия", lookup_expr="icontains", distinct=True,
-                                                         choices=[(c.name, c.name) for c in SkillProfile.objects.all()])
+    # profiles__name = django_filters.MultipleChoiceFilter(label="Професия", lookup_expr="icontains", distinct=True,
+    #                                                      choices=[(c.name, c.name) for c in SkillProfile.objects.all()])
+    profiles__name = django_filters.ModelMultipleChoiceFilter(label="Професия", lookup_expr="icontains", distinct=True, queryset=SkillProfile.objects.all())
     proposed_vacancy__id = django_filters.MultipleChoiceFilter(label="Предложенные вакансии", lookup_expr="icontains", distinct=True,
                                                          choices=[(c.id, c.position_title) for c in Vacancy.objects.all()])
     is_pair = django_filters.BooleanFilter(label="Семейная пара", field_name="is_pair", lookup_expr="exact")

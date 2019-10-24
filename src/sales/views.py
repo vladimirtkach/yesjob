@@ -199,8 +199,9 @@ def manage_list(r):
                 cv_title=get_or(line,4),
                 email=get_or(line,5),
                 source=source,
+                # objection=Objection.objects.get(pk=1),
                 comment=get_or(line,6),
-                age=get_or(line,7),
+                age=get_or(line,7, None),
                 city=get_or(line,8),
 
             ))
