@@ -69,8 +69,8 @@ class InteractionForm(forms.ModelForm):
             'result': forms.Textarea(attrs={'cols': 35, 'rows': 6}),
         }
         labels = {
-            "result": "Результат",
-            "type": "Тип",
+            "result": "Анамнез",
+            "type": "Тип взаимодействия",
         }
 
     def save(self, agent, contact, commit=True):
