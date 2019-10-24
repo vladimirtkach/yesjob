@@ -18,10 +18,10 @@ class ContactFilter(django_filters.FilterSet):
     lead_quality = django_filters.ChoiceFilter(field_name="lead_quality",
                                                choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"), (1, "Интересно но позже"), (2, "Другая Вакансия"), (3, "Приоритет"), (4,"Сделка")))
     comment = django_filters.CharFilter(label="Дополнительно", field_name="comment", lookup_expr="icontains")
-    source = django_filters.ChoiceFilter(label="Источник", field_name="source", choices=[(c.id, c.name) for c in ContactSource.objects.all()])
+    source = django_filters.ModelChoiceFilter(label="Источник", field_name="source", queryset=ContactSource.objects.all())
     interaction__result = django_filters.CharFilter(label="Взаимодействие", lookup_expr="icontains")
     cv_title = django_filters.CharFilter(label="Резюме", field_name="cv_title", lookup_expr="icontains")
-    profiles__name = django_filters.ModelMultipleChoiceFilter(label="Професия", lookup_expr="icontains", distinct=True, queryset=SkillProfile.objects.all())
+    profiles__name = django_filters.ModelMultipleChoiceFilter(label="Професия", lookup_expr="icontains", distinct=True, queryset=SkillProfile.objects.all().order_by("name"))
     proposed_vacancy__id = django_filters.MultipleChoiceFilter(label="Предложенные вакансии", lookup_expr="icontains", distinct=True,
                                                          choices=[(c.id, c.position_title) for c in Vacancy.objects.all()])
     is_pair = django_filters.BooleanFilter(label="Семейная пара", field_name="is_pair", lookup_expr="exact")
