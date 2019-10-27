@@ -65,7 +65,7 @@ def contact_list(r):
     contacts_id_list = ",".join([str(i.id) for i in contacts_paginated])
     return render(r, 'sales/contact_list.html', context=
     {'contact_list': contacts_paginated, 'filter': contacts, 'request': r,
-     'order': "next_contact_date", "contacts_id_list":contacts_id_list})
+     'order': "next_contact_date", "contacts_id_list":contacts_id_list, "count": len(contacts_paginated.object_list)})
 
 @permission_required('auth.agent')
 def create_contact(r):
@@ -101,18 +101,20 @@ def update_contact1(r, id):
         else:
             return render(r, 'sales/form.html', {'form': form}, status=200)
     positions = Vacancy.objects.filter(status="active")
-    contacts_id_list_str = r.GET.get('contacts_id_list')
+    contacts_id_list_str = r.GET.get('contacts_id_list',"")
     contacts_id_list = contacts_id_list_str.split(",")
     index = int(r.GET.get('index'))
+    count = int(r.GET.get('count'))
     return render(r, 'sales/update_contact1.html',
                   context={'form': form,
-                           'next_contact': False if index == 49 else contacts_id_list[index+1],
+                           'next_contact': False if index == count-1 else contacts_id_list[index+1],
                            'previous_contact': False if index == 0 else contacts_id_list[index-1],
                            'contacts_id_list': contacts_id_list_str,
                            'index': index,
                            'positions': positions,
                            'int_form': InteractionForm(),
                            'interactions': Interaction.objects.filter(contact_id=id),
+                           'count': count,
                            })
 
 
@@ -188,8 +190,16 @@ def delegate_list(request):
         contacts_paginated = paginator.page(1)
     except EmptyPage:
         contacts_paginated = paginator.page(paginator.num_pages)
-    return render(request, 'sales/delegate_list.html', context={'contact_list': contacts_paginated, 'filter':contacts,
-                                                                'agent_form': AgentForm(), 'request':request})
+    contacts_id_list = ",".join([str(i.id) for i in contacts_paginated])
+    return render(request, 'sales/delegate_list.html',
+                  context={
+                      'contact_list': contacts_paginated,
+                      'filter':contacts,
+                      'agent_form': AgentForm(),
+                      'request':request,
+                      "contacts_id_list":contacts_id_list,
+                      "count": len(contacts_paginated.object_list)
+                  })
 
 @permission_required('auth.admin')
 def manage_list(r):

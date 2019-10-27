@@ -86,10 +86,9 @@
     {% with previous_element=contact_list|previous:forloop.counter0 %}
     <tr>
       <th  scope="row" style="background-color: {{c.color}}">{{forloop.counter}}</th>
-      <td style="width: 10%"> <a href="{% url 'sales:update_contact' c.id  %}?index={{forloop.counter0}}&contacts_id_list={{contacts_id_list}}">{{c.phone_main|truncatechars:15}}</a></td>
+      <td style="width: 10%"> <a href="{% url 'sales:update_contact' c.id  %}?index={{forloop.counter0}}&contacts_id_list={{contacts_id_list}}&count={{count}}">{{c.phone_main|truncatechars:15}}</a></td>
       <td style="width: 10%" data-toggle="tooltip" data-placement="top" title="{{ c.first_name}} {{ c.last_name}}">
-          <a href="{% url 'sales:update_contact' c.id %}?next_contact={{next_element.id}}&previous_contact={{previous_element.id}}">
-        {{ c.first_name|truncatechars:10}} {{ c.last_name|truncatechars:10}}</a></td>
+         {{ c.first_name|truncatechars:10}} {{ c.last_name|truncatechars:10}}</td>
       <td style="width: 25%" data-toggle="tooltip" data-placement="top" title="{{c.comment}}">{{ c.comment|truncatechars:100 }}</td>
       <td style="width: 25%">{{ c.interaction_set.latest.result }}</td>
       <td >{{ c.next_contact_date|date:"d.m.y"}}</td>

@@ -102,9 +102,9 @@
 {% for c in contact_list%}
     <tr>
       <th scope="row">{{forloop.counter}}</th>
-        <td><a href="{% url 'sales:interactions' c.id  %}">{{ c.first_name}}  {{ c.last_name }}</a></td>
+        <td><a href="{% url 'sales:update_contact' c.id  %}?index={{forloop.counter0}}&contacts_id_list={{contacts_id_list}}&count={{count}}">{{ c.first_name}}  {{ c.last_name }}</a></td>
         <td>{{ c.agent.user.name }}</td>
-        <td><a href="{% url 'sales:interactions' c.id  %}">{{ c.created_at|date:"d.m.y" }}</a></td>
+        <td><a href="{% url 'sales:update_contact' c.id  %}?index={{forloop.counter0}}&contacts_id_list={{contacts_id_list}}&count={{count}}">{{ c.created_at|date:"d.m.y" }}</a></td>
         <td>{{c.source}}</td>
         <td><a href="{{c.cv_url}}">{{c.cv_title}}</a></td>
         <td>{{ c.lead_quality }}</td>
