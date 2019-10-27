@@ -13,13 +13,16 @@ class Contact(models.Model):
     telegram = models.CharField(max_length=50,  blank=True, verbose_name="Телеграм")
     email = models.CharField(max_length=50, blank=True, verbose_name="Имейл")
     age = models.IntegerField(blank=True, default=0, verbose_name="Возраст")
-    sex = models.CharField(max_length=1, blank=True, choices=(("м", "Мужской"),("ж", "Женский")), verbose_name="Пол")
+    sex = models.CharField(max_length=1, blank=True, choices=(("м", "Мужской"), ("ж", "Женский")), verbose_name="Пол")
     is_client = models.BooleanField(default=False)
     in_sales = models.BooleanField(default=True)
     profiles = models.ManyToManyField("SkillProfile", default=None, blank=True, verbose_name="Професии кандидата")
     agent = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1)
     source = models.ForeignKey("ContactSource", on_delete=models.CASCADE, verbose_name="Источник контакта")
-    lead_quality = models.IntegerField(default=0, verbose_name="Статус", choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"),(101, "Ящ"), (1, "Интересно но позже"), (2, "Другая Вакансия"), (3, "Приоритет"),  (102, "Принимает Решение"), (4,"Сделка")))
+    lead_quality = models.IntegerField(default=0, verbose_name="Статус",
+                                       choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"),(101, "Ящ"),
+                                                (1, "Интересно но позже"), (2, "Другая Вакансия"), (3, "Приоритет"),
+                                                (102, "Принимает Решение"), (103, "Ожоп"), (4,"Сделка")))
     city = models.CharField(max_length=200, default='', blank=True, verbose_name="Город проживания")
     next_contact_date = models.DateTimeField(default='1980-01-01 12:12:12', verbose_name="Дата следующего контакта")
     last_contact_date = models.DateTimeField(default='1980-01-01 12:12:12')
@@ -27,7 +30,6 @@ class Contact(models.Model):
     cv_url = models.CharField(max_length=250, blank=True, verbose_name="Ссылка на резюме")
     cv_title = models.CharField(max_length=100, blank=True, verbose_name="Заголовок резюме")
     color = models.CharField(max_length=20, blank=True, verbose_name="Цвет")
-    #color = models.CharField(max_length=20, blank=True, verbose_name="Цвет", choices=(("blue","Синий"),("SkyBlue","Голубой"),("green","Зеленый"),("yellow","Желтый"),("orange","Оранжевый"),("red","Красный")))
     objection = models.ForeignKey("Objection", on_delete=models.CASCADE, default=None, verbose_name="Причина отказа")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(default=timezone.now)
