@@ -62,6 +62,7 @@ class ContactSourceForm(forms.ModelForm):
 
 class InteractionForm(forms.ModelForm):
     date = forms.DateTimeField(label="Дата сл. контакта",widget=forms.TextInput(attrs={'autocomplete':'off'}))
+
     class Meta:
         model = Interaction
         exclude = ["agent", "interaction_date", "contact"]
@@ -70,7 +71,7 @@ class InteractionForm(forms.ModelForm):
         }
         labels = {
             "result": "Анамнез",
-            "type": "Тип взаимодействия",
+            "type": "Тип",
         }
 
     def save(self, agent, contact, commit=True):

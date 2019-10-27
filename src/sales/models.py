@@ -19,7 +19,7 @@ class Contact(models.Model):
     profiles = models.ManyToManyField("SkillProfile", default=None, blank=True, verbose_name="Професии кандидата")
     agent = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1)
     source = models.ForeignKey("ContactSource", on_delete=models.CASCADE, verbose_name="Источник контакта")
-    lead_quality = models.IntegerField(default=0, verbose_name="Статус", choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"), (1, "Интересно но позже"), (2, "Другая Вакансия"), (3, "Приоритет"), (4,"Сделка")))
+    lead_quality = models.IntegerField(default=0, verbose_name="Статус", choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"), (1, "Интересно но позже"), (2, "Другая Вакансия"), (3, "Приоритет"), (31, "Ящ"), (31, "Принимает Решение"), (4,"Сделка")))
     city = models.CharField(max_length=200, default='', blank=True, verbose_name="Город проживания")
     next_contact_date = models.DateTimeField(default='1980-01-01 12:12:12', verbose_name="Дата следующего контакта")
     last_contact_date = models.DateTimeField(default='1980-01-01 12:12:12')
@@ -52,7 +52,7 @@ class Objection(models.Model):
 class Interaction(models.Model):
     agent = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
-    result = models.CharField(max_length=500, blank=True)
+    result = models.CharField(max_length=1000, blank=True)
     interaction_date = models.DateTimeField(auto_now=True)
     type = models.CharField(max_length=200, blank=True, default="звонок", choices=(("звонок", "Звонок"),("email", "Email"),("sms", "Sms"),
                                                      ("messenger", "Messenger"), ("автопрозвон", "Автопрозвон")))
