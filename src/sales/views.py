@@ -24,6 +24,8 @@ status_colors = {
     2: "skyblue",
     3: "green",
     4: "blue",
+    101: "#6e707e",
+    102: "#00f3ff",
 }
 
 

@@ -16,7 +16,7 @@ class ContactFilter(django_filters.FilterSet):
     first_name = django_filters.CharFilter(label="Имя", field_name="first_name", lookup_expr="icontains")
     last_name = django_filters.CharFilter(label="Фамилия", field_name="last_name", lookup_expr="icontains")
     lead_quality = django_filters.ChoiceFilter(field_name="lead_quality",
-                                               choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"), (1, "Интересно но позже"), (2, "Другая Вакансия"), (3, "Приоритет"), (4,"Сделка")))
+                                               choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"),(101, "Ящ"), (1, "Интересно но позже"), (2, "Другая Вакансия"), (3, "Приоритет"),  (102, "Принимает Решение"), (4,"Сделка")))
     comment = django_filters.CharFilter(label="Дополнительно", field_name="comment", lookup_expr="icontains")
     source = django_filters.ModelChoiceFilter(label="Источник", field_name="source", queryset=ContactSource.objects.all())
     interaction__result = django_filters.CharFilter(label="Взаимодействие", lookup_expr="icontains")

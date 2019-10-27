@@ -70,7 +70,7 @@ class InteractionForm(forms.ModelForm):
             'result': forms.Textarea(attrs={'cols': 35, 'rows': 6}),
         }
         labels = {
-            "result": "Анамнез",
+            "result": "Результат",
             "type": "Тип",
         }
 
