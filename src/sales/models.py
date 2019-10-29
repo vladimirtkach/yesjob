@@ -11,6 +11,7 @@ class Contact(models.Model):
     phone2 = models.CharField(max_length=50,  blank=True, verbose_name="Телефон2")
     viber = models.CharField(max_length=50,  blank=True, verbose_name="Вайбер")
     telegram = models.CharField(max_length=50,  blank=True, verbose_name="Телеграм")
+    watsap = models.CharField(max_length=50,  blank=True, verbose_name="Ватсап")
     email = models.CharField(max_length=50, blank=True, verbose_name="Имейл")
     age = models.IntegerField(blank=True, default=0, verbose_name="Возраст")
     sex = models.CharField(max_length=1, blank=True, choices=(("м", "Мужской"), ("ж", "Женский")), verbose_name="Пол")
@@ -20,9 +21,9 @@ class Contact(models.Model):
     agent = models.ForeignKey(Profile, on_delete=models.CASCADE, default=1)
     source = models.ForeignKey("ContactSource", on_delete=models.CASCADE, verbose_name="Источник контакта")
     lead_quality = models.IntegerField(default=0, verbose_name="Статус",
-                                       choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"),(101, "Ящ"),
+                                       choices=((-2, "Отказ"), (-1, "Недозвон"), (0, "Новый"),(101, "ТЕПЛЫЙ НО ОТЛОЖЕННЫЙ ЗВОНОК"),
                                                 (1, "Интересно но позже"), (2, "Другая Вакансия"), (3, "Приоритет"),
-                                                (102, "Принимает Решение"), (103, "Ожоп"), (4,"Сделка")))
+                                                (102, "Принимает Решение"), (103, "ОЖИДАНИЕ ОПЛАТЫ"), (4,"Сделка")))
     city = models.CharField(max_length=200, default='', blank=True, verbose_name="Город проживания")
     next_contact_date = models.DateTimeField(default='1980-01-01 12:12:12', verbose_name="Дата следующего контакта")
     last_contact_date = models.DateTimeField(default='1980-01-01 12:12:12')
@@ -57,8 +58,15 @@ class Interaction(models.Model):
     contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
     result = models.CharField(max_length=1000, blank=True)
     interaction_date = models.DateTimeField(auto_now=True)
-    type = models.CharField(max_length=200, blank=True, default="звонок", choices=(("звонок", "Звонок"),("email", "Email"),("sms", "Sms"),
-                                                     ("messenger", "Messenger"), ("автопрозвон", "Автопрозвон")))
+    type = models.CharField(max_length=200, default="звонок",
+                            choices=(("звонок", "звонок"),
+                                     ("вайбер", "вайбер"),
+                                     ("телеграм", "телеграм"),
+                                     ("ватсап", "ватсап"),
+                                     ("email", "email"),
+                                     ("sms", "sms"),
+                                     ("автопрозвон", "автопрозвон"))
+                            )
     class Meta:
         get_latest_by = 'id'
 
