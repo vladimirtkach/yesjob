@@ -85,9 +85,8 @@ def postback(r):
     status = r.GET.get('status')
     source_id = r.GET.get('source_id')
     print(r.GET)
-    if True:
+    if status == "1":
         Contact.objects.bulk_create([Contact(phone_main=phone, source_id=source_id, agent_id=1)], ignore_conflicts=True)
-    return phone + "----------" + status
 
 @permission_required('auth.agent')
 def update_contact(r, id):
