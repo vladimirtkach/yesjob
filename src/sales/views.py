@@ -76,8 +76,18 @@ def create_contact(r):
         if form.is_valid():
             form.instance.color = status_colors[form.instance.lead_quality]
             instance = form.save(r.user.profile)
-            return HttpResponseRedirect(reverse('sales:interactions', args=[instance.id]))
+            return HttpResponseRedirect(reverse('sales:update_contact1', args=[instance.id]))
     return render(r, 'sales/create_contact.html', context={'form': form})
+
+
+def postback(r):
+    phone = r.GET.get('phone')
+    status = r.GET.get('status')
+    source_id = r.GET.get('source_id')
+    print(r.GET)
+    if True:
+        Contact.objects.bulk_create([Contact(phone_main=phone, source_id=source_id, agent_id=1)], ignore_conflicts=True)
+    return phone + "----------" + status
 
 @permission_required('auth.agent')
 def update_contact(r, id):

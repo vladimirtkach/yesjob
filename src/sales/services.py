@@ -20,3 +20,6 @@ def normalize_phone(raw_phone):
                                                                  "38067", "38096", "38098", "38066", "38099", "38093", "38089", "38092"]):
         return phone
 
+    if phone.startswith("48") and len(phone) == 11:
+        return phone
+

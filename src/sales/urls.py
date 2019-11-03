@@ -8,6 +8,7 @@ urlpatterns = [
     path("contact_list", contact_list, name="contact_list"),
     path("delegate_list", delegate_list, name="delegate_list"),
     path("create_contact", create_contact, name="create_contact"),
+    path("postback", postback, name="postback"),
     path("update_contact/<id>", update_contact1, name="update_contact"),
     path("update_contact1/<id>", update_contact1, name="update_contact1"),
     path("interactions/<id>", interactions, name="interactions"),
