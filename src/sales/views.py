@@ -36,7 +36,13 @@ def get_or (l, idx, default=""):
   except IndexError:
     return default
 
+from django.utils.http import urlencode
 
+def reverse_querystring(view, urlconf=None, args=None, kwargs=None, current_app=None, query_kwargs=None):
+    base_url = reverse(view, urlconf=urlconf, args=args, kwargs=kwargs, current_app=current_app)
+    if query_kwargs:
+        return '{}?{}'.format(base_url, urlencode(query_kwargs))
+    return base_url
 
 @permission_required('auth.agent')
 def contact_list(r):
@@ -76,7 +82,8 @@ def create_contact(r):
         if form.is_valid():
             form.instance.color = status_colors[form.instance.lead_quality]
             instance = form.save(r.user.profile)
-            return HttpResponseRedirect(reverse('sales:update_contact1', args=[instance.id]))
+            return HttpResponseRedirect(reverse_querystring('sales:update_contact1', args=[instance.id],
+                                                            query_kwargs={"index":0,'count':1,'contacts_id_list':instance.id}))
     return render(r, 'sales/create_contact.html', context={'form': form})
 
 
