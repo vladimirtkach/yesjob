@@ -92,10 +92,15 @@ def postback(r):
     phone = r.GET.get('phone')
     status = r.GET.get('status')
     source_id = r.GET.get('source_id')
+    id_list = r.GET.get('id_list','1')
+    id_list = id_list.split(",")
+    id_list = [int(i) for i in id_list if i.isnumeric()]
+    if len(id_list)==0:
+        id_list=[1]
     print(r.GET)
     if status == "1":
         Contact.objects.bulk_create([Contact(phone_main=normalize_phone(phone), source_id=source_id,
-                                             agent_id=random.choice([5,6,7,9,13]) )], ignore_conflicts=True)
+                                             agent_id=random.choice(id_list) )], ignore_conflicts=True)
 
 @permission_required('auth.agent')
 def update_contact(r, id):
